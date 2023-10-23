@@ -58,6 +58,7 @@ const ShowStudents = () => {
         { id: 'name', label: 'Name', minWidth: 170 },
         { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
         { id: 'sclassName', label: 'Class', minWidth: 170 },
+        { id: "editZone", label: 'editZone', minWidth: 100 }
     ]
 
     const studentRows = studentsList && studentsList.length > 0 && studentsList.map((student) => {
@@ -66,6 +67,7 @@ const ShowStudents = () => {
             rollNum: student.rollNum,
             sclassName: student.sclassName.sclassName,
             id: student._id,
+            editZone: ["zone1", "zone2"],
         };
     })
 
@@ -198,8 +200,9 @@ const ShowStudents = () => {
                         </Box>
                         :
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+
                             {Array.isArray(studentsList) && studentsList.length > 0 &&
-                                <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} />
+                                <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} flag={true} />
                             }
                             <SpeedDialTemplate actions={actions} />
                         </Paper>
