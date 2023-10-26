@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { StyledTableCell, StyledTableRow } from './styles';
 import { Table, TableBody, TableContainer, TableHead, TablePagination } from '@mui/material';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { updateStudentFields } from '../redux/studentRelated/studentHandle';
 
 
 
@@ -10,22 +11,31 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [zoneValue, setzoneValue] = useState([]);
+    const [indexValue, setindexValue] = useState(0);
+
+    const dispatch = useDispatch();
+    // const [rows2, setRows] = useState(rows);
+
     useEffect(() => {
         for (let i = 0; i < rows.length; i++) {
             zoneValue.push(rows[i].sclassName);
         }
     }, [])
 
+    // console.log(rows);
     const changeHandler = (event, index) => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         var newarr = zoneValue;
         newarr[index] = event.target.value;
-        console.log(newarr[index]);
+        // console.log(newarr[index]);
         setzoneValue(newarr);
+        setindexValue(index);
     }
 
-    const handleSave = () => {
 
+    const handleSave = (e, index) => {
+        // e.preventDefault();
+        dispatch(updateStudentFields(rows[index].id, { sclassName: zoneValue[index] }, "updateStudentZone"));
     }
     return (
         <>
@@ -51,13 +61,10 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, indexr) => {
-
-
                                 return (
                                     <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
-
                                             return (
                                                 <>
                                                     {
@@ -87,11 +94,11 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
                                             );
                                         })}
                                         <StyledTableCell>
-                                            {/* {flag && (
-                                                <button onClick={handleSave}>
+                                            {flag && (
+                                                <button onClick={event => handleSave(event, indexr)}>
                                                     saveZone
                                                 </button>
-                                            )} */}
+                                            )}
                                             <ButtonHaver row={row} />
                                         </StyledTableCell>
                                         {/* <StyledTableCell align="center">

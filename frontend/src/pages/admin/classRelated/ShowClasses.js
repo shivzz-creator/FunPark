@@ -46,7 +46,6 @@ const ShowClasses = () => {
     //     dispatch(getAllSclasses(adminID, "Sclass"));
     //   })
   }
-
   const sclassColumns = [
     { id: 'name', label: 'Class Name', minWidth: 170 },
   ]
