@@ -21,7 +21,8 @@ const {
     clearAllStudentsAttendanceBySubject,
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
-    removeStudentAttendance
+    removeStudentAttendance,
+    updateZone
 } = require('../controllers/student_controller.js');
 const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } = require('../controllers/subject-controller.js');
 const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
@@ -57,7 +58,8 @@ router.put('/RemoveAllStudentsSubAtten/:id', clearAllStudentsAttendanceBySubject
 router.put('/RemoveAllStudentsAtten/:id', clearAllStudentsAttendance);
 
 router.put('/RemoveStudentSubAtten/:id', removeStudentAttendanceBySubject);
-router.put('/RemoveStudentAtten/:id', removeStudentAttendance)
+router.put('/RemoveStudentAtten/:id', removeStudentAttendance);
+router.put('/updateStudentZone/:id',updateZone);
 
 // Teacher
 
@@ -93,6 +95,16 @@ router.post('/ComplainCreate', complainCreate);
 router.get('/ComplainList/:id', complainList);
 
 // Sclass
+
+// router.get("/classes", async (req, res) => {
+//     try {
+//         const classes = await sclassModel.find().exec();
+//         res.json(classes);
+//     } catch (error) {
+//         console.error("Error fetching classes:", error);
+//         res.status(500).json({ error: "An error occurred while fetching classes" });
+//     }
+// });
 
 router.post('/SclassCreate', sclassCreate);
 

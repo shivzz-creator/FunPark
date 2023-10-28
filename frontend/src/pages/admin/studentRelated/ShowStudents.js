@@ -23,18 +23,26 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Popup from '../../../components/Popup';
-
+import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
 const ShowStudents = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
+    const { sclassesList } = useSelector((state) => state.sclass);
     const { studentsList, loading, error, response } = useSelector((state) => state.student);
     const { currentUser } = useSelector(state => state.user)
+// ---------------
+    const adminID = currentUser._id;
 
+    useEffect(() => {
+        dispatch(getAllSclasses(adminID, "Sclass"));
+    }, [adminID, dispatch]);
+
+// -------------------
     useEffect(() => {
         dispatch(getAllStudents(currentUser._id));
     }, [currentUser._id, dispatch]);
-
+    
     if (error) {
         console.log(error);
     }
@@ -58,17 +66,19 @@ const ShowStudents = () => {
         { id: 'name', label: 'Name', minWidth: 170 },
         { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
         { id: 'sclassName', label: 'Class', minWidth: 170 },
+        { id: "editZone", label: 'editZone', minWidth: 100 }
     ]
-
+    const classNames = sclassesList.map((sclass) => sclass.sclassName);
     const studentRows = studentsList && studentsList.length > 0 && studentsList.map((student) => {
         return {
             name: student.name,
             rollNum: student.rollNum,
             sclassName: student.sclassName.sclassName,
             id: student._id,
+            editZone: classNames,
         };
     })
-
+    // console.log(classNames);
     const StudentButtonHaver = ({ row }) => {
         const options = ['Take Attendance', 'Provide Marks'];
 
@@ -107,9 +117,10 @@ const ShowStudents = () => {
             }
 
             setOpen(false);
-        };
+        }; 
         return (
             <>
+          
                 <IconButton onClick={() => deleteHandler(row.id, "Student")}>
                     <PersonRemoveIcon color="error" />
                 </IconButton>
@@ -198,8 +209,9 @@ const ShowStudents = () => {
                         </Box>
                         :
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+
                             {Array.isArray(studentsList) && studentsList.length > 0 &&
-                                <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} />
+                                <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} flag={true} />
                             }
                             <SpeedDialTemplate actions={actions} />
                         </Paper>

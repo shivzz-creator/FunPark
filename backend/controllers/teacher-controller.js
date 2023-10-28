@@ -85,15 +85,15 @@ const getTeacherDetail = async (req, res) => {
 }
 
 const updateTeacherSubject = async (req, res) => {
-    const { teacherId, teachSubject } = req.body;
+    const {teacherId,teachSubject} = req.body;
     try {
         const updatedTeacher = await Teacher.findByIdAndUpdate(
             teacherId,
-            { teachSubject },
-            { new: true }
+            {teachSubject},
+            {new:true}
         );
 
-        await Subject.findByIdAndUpdate(teachSubject, { teacher: updatedTeacher._id });
+        await Subject.findByIdAndUpdate(teachSubject,{teacher: updatedTeacher._id });
 
         res.send(updatedTeacher);
     } catch (error) {

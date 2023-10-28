@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
-
+const sclass = require('../models/sclassSchema.js');
+const { findByIdAndUpdate } = require('../models/adminSchema.js');
+const mongoose = require('mongoose');
 const studentRegister = async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
@@ -271,6 +273,19 @@ const removeStudentAttendance = async (req, res) => {
     }
 };
 
+const updateZone = async (req, res) => {
+    const studentId = req.params.id;
+    try {
+        // const validSclassName = new mongoose.Types.ObjectId(req.body.sclassName);
+        const zone = await sclass.findOne({ sclassName :req.body.sclassName});
+        const result = await Student.findByIdAndUpdate(studentId, { sclassName: zone._id }, { new: true });
+        // console.log(zone);
+        return res.send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+};
 
 module.exports = {
     studentRegister,
@@ -283,9 +298,9 @@ module.exports = {
     studentAttendance,
     deleteStudentsByClass,
     updateExamResult,
-
     clearAllStudentsAttendanceBySubject,
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
     removeStudentAttendance,
+    updateZone
 };
