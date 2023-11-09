@@ -110,7 +110,7 @@ const AdminDashboard = () => {
                         <Route path="/Admin/addsubject/:id" element={<SubjectForm />} />
                         <Route path="/Admin/class/subject/:classID/:subjectID" element={<ViewSubject />} />
 
-                        <Route path="/Admin/subject/student/attendance/:studentID/:subjectID" element={<StudentAttendance situation="Subject" />} />
+                        <Route path="/Admin/subject/student/attendance/:studentID/" element={<StudentAttendance situation="Subject" />} />
                         <Route path="/Admin/subject/student/marks/:studentID/:subjectID" element={<StudentExamMarks situation="Subject" />} />
 
                         {/* Class */}
@@ -127,12 +127,12 @@ const AdminDashboard = () => {
                         <Route path="/Admin/students/student/marks/:id" element={<StudentExamMarks situation="Student" />} />
 
                         {/* Teacher */}
-                        <Route path="/Admin/teachers" element={<ShowTeachers />} />
+                        {/* <Route path="/Admin/teachers" element={<ShowTeachers />} />
                         <Route path="/Admin/teachers/teacher/:id" element={<TeacherDetails />} />
                         <Route path="/Admin/teachers/chooseclass" element={<ChooseClass situation="Teacher" />} />
                         <Route path="/Admin/teachers/choosesubject/:id" element={<ChooseSubject situation="Norm" />} />
                         <Route path="/Admin/teachers/choosesubject/:classID/:teacherID" element={<ChooseSubject situation="Teacher" />} />
-                        <Route path="/Admin/teachers/addteacher/:id" element={<AddTeacher />} />
+                        <Route path="/Admin/teachers/addteacher/:id" element={<AddTeacher />} /> */}
 
                         <Route path="/logout" element={<Logout />} />
                     </Routes>

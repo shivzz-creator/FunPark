@@ -17,7 +17,7 @@ const LoginPage = ({ role }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);;
+    const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);
 
     const [toggle, setToggle] = useState(false)
     const [guestLoader, setGuestLoader] = useState(false)
@@ -48,7 +48,6 @@ const LoginPage = ({ role }) => {
             setLoader(true)
             dispatch(loginUser(fields, role))
         }
-
         else {
             const email = event.target.email.value;
             const password = event.target.password.value;
@@ -149,13 +148,13 @@ const LoginPage = ({ role }) => {
                                         required
                                         fullWidth
                                         id="rollNumber"
-                                        label="Enter your Roll Number"
+                                        label="Enter your Employee ID "
                                         name="rollNumber"
                                         autoComplete="off"
                                         type="number"
-                                        autoFocus
+                                        // autoFocus
                                         error={rollNumberError}
-                                        helperText={rollNumberError && 'Roll Number is required'}
+                                        helperText={rollNumberError && 'Emp ID is required'}
                                         onChange={handleInputChange}
                                     />
                                     <TextField
@@ -218,9 +217,9 @@ const LoginPage = ({ role }) => {
                                     control={<Checkbox value="remember" color="primary" />}
                                     label="Remember me"
                                 />
-                                <StyledLink href="#">
+                                {/* <StyledLink href="#">
                                     Forgot password?
-                                </StyledLink>
+                                </StyledLink> */}
                             </Grid>
                             <LightPurpleButton
                                 type="submit"
@@ -232,15 +231,15 @@ const LoginPage = ({ role }) => {
                                     <CircularProgress size={24} color="inherit" />
                                     : "Login"}
                             </LightPurpleButton>
-                            <Button
+                            {/* <Button
                                 fullWidth
                                 onClick={guestModeHandler}
                                 variant="outlined"
                                 sx={{ mt: 2, mb: 3, color: "#7f56da", borderColor: "#7f56da" }}
                             >
                                 Login as Guest
-                            </Button>
-                            {role === "Admin" &&
+                            </Button> */}
+                            {/* {role === "Admin" &&
                                 <Grid container>
                                     <Grid>
                                         Don't have an account?
@@ -251,7 +250,7 @@ const LoginPage = ({ role }) => {
                                         </StyledLink>
                                     </Grid>
                                 </Grid>
-                            }
+                            } */}
                         </Box>
                     </Box>
                 </Grid>

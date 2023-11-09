@@ -18,14 +18,16 @@ const ViewStdAttendance = () => {
 
     const [openStates, setOpenStates] = useState({});
 
-    const handleOpen = (subId) => {
-        setOpenStates((prevState) => ({
-            ...prevState,
-            [subId]: !prevState[subId],
-        }));
-    };
+    // const handleOpen = (subId) => {
+    //     setOpenStates((prevState) => ({
+    //         ...prevState,
+    //         [subId]: !prevState[subId],
+    //     }));
+    // };
 
     const { userDetails, currentUser, loading, response, error } = useSelector((state) => state.user);
+    // console.log(userDetails);
+    console.log(currentUser);
 
     useEffect(() => {
         dispatch(getUserDetails(currentUser._id, "Student"));
@@ -33,123 +35,135 @@ const ViewStdAttendance = () => {
 
     if (response) { console.log(response) }
     else if (error) { console.log(error) }
+    // Step 1: Calculate the total number of days
+    const totalDays = userDetails.attendance.length;
 
-    const [subjectAttendance, setSubjectAttendance] = useState([]);
-    const [selectedSection, setSelectedSection] = useState('table');
+    // Step 2: Count the number of "Present" days
+    const presentDays = userDetails.attendance.filter((entry) => entry.status === "Present").length;
 
-    useEffect(() => {
-        if (userDetails) {
-            setSubjectAttendance(userDetails.attendance || []);
-        }
-    }, [userDetails])
+    // Step 3: Calculate the attendance percentage
+    const attendancePercentage = (presentDays / totalDays) * 100;
 
-    const attendanceBySubject = groupAttendanceBySubject(subjectAttendance)
+    console.log(`Attendance Percentage: ${attendancePercentage}%`);
+    // const [subjectAttendance, setSubjectAttendance] = useState([]);
+    // const [selectedSection, setSelectedSection] = useState('table');
 
-    const overallAttendancePercentage = calculateOverallAttendancePercentage(subjectAttendance);
+    // console.log(subjectAttendance);
 
-    const subjectData = Object.entries(attendanceBySubject).map(([subName, { subCode, present, sessions }]) => {
-        const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
-        return {
-            subject: subName,
-            attendancePercentage: subjectAttendancePercentage,
-            totalClasses: sessions,
-            attendedClasses: present
-        };
-    });
+    // useEffect(() => {
+    //     if (userDetails) {
+    //         setSubjectAttendance(userDetails.attendance || []);
+    //     }
+    // }, [userDetails])
 
-    const handleSectionChange = (event, newSection) => {
-        setSelectedSection(newSection);
-    };
+    // const attendanceBySubject = groupAttendanceBySubject(subjectAttendance)
 
-    const renderTableSection = () => {
-        return (
-            <>
-                <Typography variant="h4" align="center" gutterBottom>
-                    Attendance
-                </Typography>
-                <Table>
-                    <TableHead>
-                        <StyledTableRow>
-                            <StyledTableCell>Subject</StyledTableCell>
-                            <StyledTableCell>Present</StyledTableCell>
-                            <StyledTableCell>Total Sessions</StyledTableCell>
-                            <StyledTableCell>Attendance Percentage</StyledTableCell>
-                            <StyledTableCell align="center">Actions</StyledTableCell>
-                        </StyledTableRow>
-                    </TableHead>
-                    {Object.entries(attendanceBySubject).map(([subName, { present, allData, subId, sessions }], index) => {
-                        const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
+    // const overallAttendancePercentage = calculateOverallAttendancePercentage(subjectAttendance);
 
-                        return (
-                            <TableBody key={index}>
-                                <StyledTableRow>
-                                    <StyledTableCell>{subName}</StyledTableCell>
-                                    <StyledTableCell>{present}</StyledTableCell>
-                                    <StyledTableCell>{sessions}</StyledTableCell>
-                                    <StyledTableCell>{subjectAttendancePercentage}%</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <Button variant="contained"
-                                            onClick={() => handleOpen(subId)}>
-                                            {openStates[subId] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}Details
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow>
-                                    <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                        <Collapse in={openStates[subId]} timeout="auto" unmountOnExit>
-                                            <Box sx={{ margin: 1 }}>
-                                                <Typography variant="h6" gutterBottom component="div">
-                                                    Attendance Details
-                                                </Typography>
-                                                <Table size="small" aria-label="purchases">
-                                                    <TableHead>
-                                                        <StyledTableRow>
-                                                            <StyledTableCell>Date</StyledTableCell>
-                                                            <StyledTableCell align="right">Status</StyledTableCell>
-                                                        </StyledTableRow>
-                                                    </TableHead>
-                                                    <TableBody>
-                                                        {allData.map((data, index) => {
-                                                            const date = new Date(data.date);
-                                                            const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
-                                                            return (
-                                                                <StyledTableRow key={index}>
-                                                                    <StyledTableCell component="th" scope="row">
-                                                                        {dateString}
-                                                                    </StyledTableCell>
-                                                                    <StyledTableCell align="right">{data.status}</StyledTableCell>
-                                                                </StyledTableRow>
-                                                            )
-                                                        })}
-                                                    </TableBody>
-                                                </Table>
-                                            </Box>
-                                        </Collapse>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            </TableBody>
-                        )
-                    }
-                    )}
-                </Table>
-                <div>
-                    Overall Attendance Percentage: {overallAttendancePercentage.toFixed(2)}%
-                </div>
-            </>
-        )
-    }
+    // const subjectData = Object.entries(attendanceBySubject).map(([subName, { subCode, present, sessions }]) => {
+    //     const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
+    //     return {
+    //         subject: subName,
+    //         attendancePercentage: subjectAttendancePercentage,
+    //         totalClasses: sessions,
+    //         attendedClasses: present
+    //     };
+    // });
 
-    const renderChartSection = () => {
-        return (
-            <>
-                <CustomBarChart chartData={subjectData} dataKey="attendancePercentage" />
-            </>
-        )
-    };
+    // const handleSectionChange = (event, newSection) => {
+    //     setSelectedSection(newSection);
+    // };
 
+    // const renderTableSection = () => {
+    //     return (
+    //         <>
+    //             <Typography variant="h4" align="center" gutterBottom>
+    //                 Attendance
+    //             </Typography>
+    //             <Table>
+    //                 <TableHead>
+    //                     <StyledTableRow>
+    //                         {/* <StyledTableCell>Subject</StyledTableCell> */}
+    //                         <StyledTableCell>Present</StyledTableCell>
+    //                         <StyledTableCell>Total Sessions</StyledTableCell>
+    //                         <StyledTableCell>Attendance Percentage</StyledTableCell>
+    //                         <StyledTableCell align="center">Actions</StyledTableCell>
+    //                     </StyledTableRow>
+    //                 </TableHead>
+    //                 {/* {Object.entries(attendanceBySubject).map(([subName, { present, allData, subId, sessions }], index) => {
+    //                     const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
+
+    //                     return (
+    //                         <TableBody key={index}>
+    //                             <StyledTableRow>
+    //                                 <StyledTableCell>{subName}</StyledTableCell>
+    //                                 <StyledTableCell>{present}</StyledTableCell>
+    //                                 <StyledTableCell>{sessions}</StyledTableCell>
+    //                                 <StyledTableCell>{subjectAttendancePercentage}%</StyledTableCell>
+    //                                 <StyledTableCell align="center">
+    //                                     <Button variant="contained"
+    //                                         onClick={() => handleOpen(subId)}>
+    //                                         {openStates[subId] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}Details
+    //                                     </Button>
+    //                                 </StyledTableCell>
+    //                             </StyledTableRow>
+    //                             <StyledTableRow>
+    //                                 <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+    //                                     <Collapse in={openStates[subId]} timeout="auto" unmountOnExit>
+    //                                         <Box sx={{ margin: 1 }}>
+    //                                             <Typography variant="h6" gutterBottom component="div">
+    //                                                 Attendance Details
+    //                                             </Typography>
+    //                                             <Table size="small" aria-label="purchases">
+    //                                                 <TableHead>
+    //                                                     <StyledTableRow>
+    //                                                         <StyledTableCell>Date</StyledTableCell>
+    //                                                         <StyledTableCell align="right">Status</StyledTableCell>
+    //                                                     </StyledTableRow>
+    //                                                 </TableHead>
+    //                                                 <TableBody>
+    //                                                     {allData.map((data, index) => {
+    //                                                         const date = new Date(data.date);
+    //                                                         const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
+    //                                                         return (
+    //                                                             <StyledTableRow key={index}>
+    //                                                                 <StyledTableCell component="th" scope="row">
+    //                                                                     {dateString}
+    //                                                                 </StyledTableCell>
+    //                                                                 <StyledTableCell align="right">{data.status}</StyledTableCell>
+    //                                                             </StyledTableRow>
+    //                                                         )
+    //                                                     })}
+    //                                                 </TableBody>
+    //                                             </Table>
+    //                                         </Box>
+    //                                     </Collapse>
+    //                                 </StyledTableCell>
+    //                             </StyledTableRow>
+    //                         </TableBody>
+    //                     )
+    //                 }
+    //                 )} */}
+    //             </Table>
+    //             <div>
+    //                 Overall Attendance Percentage: {overallAttendancePercentage.toFixed(2)}%
+    //             </div>
+    //         </>
+    //     )
+    // }
+
+    // const renderChartSection = () => {
+    //     return (
+    //         <>
+    //             <CustomBarChart chartData={subjectData} dataKey="attendancePercentage" />
+    //         </>
+    //     )
+    // };
+    // console.log(userDetails.attendance);
     return (
         <>
-            {loading
+            <>{attendancePercentage}</>
+            {/* {loading
                 ? (
                     <div>Loading...</div>
                 )
@@ -183,7 +197,7 @@ const ViewStdAttendance = () => {
                         </>
                     }
                 </div>
-            }
+            } */}
         </>
     )
 }

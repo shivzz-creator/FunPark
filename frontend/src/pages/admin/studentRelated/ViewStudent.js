@@ -176,7 +176,7 @@ const ViewStudent = () => {
                                                 <DeleteIcon color="error" />
                                             </IconButton>
                                             <Button variant="contained" sx={styles.attendanceButton}
-                                                onClick={() => navigate(`/Admin/subject/student/attendance/${studentID}/${subId}`)}>
+                                                onClick={() => navigate(`/Admin/subject/student/attendance/${studentID}`)}>
                                                 Change
                                             </Button>
                                         </StyledTableCell>

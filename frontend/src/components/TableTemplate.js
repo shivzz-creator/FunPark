@@ -35,7 +35,11 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
 
     const handleSave = (e, index) => {
         // e.preventDefault();
-        dispatch(updateStudentFields(rows[index].id, { sclassName: zoneValue[index] }, "updateStudentZone"));
+        dispatch(updateStudentFields(rows[index].id, { sclassName: zoneValue[index] }, "updateStudentZone"))
+          .then(() => {
+              // Reload the page when the save is successful
+              window.location.reload();
+          });
     }
     return (
         <>

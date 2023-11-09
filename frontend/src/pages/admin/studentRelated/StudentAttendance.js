@@ -38,28 +38,31 @@ const StudentAttendance = ({ situation }) => {
             dispatch(getUserDetails(stdID, "Student"));
         }
         else if (situation === "Subject") {
-            const { studentID, subjectID } = params
-            setStudentID(studentID);
-            dispatch(getUserDetails(studentID, "Student"));
-            setChosenSubName(subjectID);
+            setStudentID(params.id);
+            const stdID = params.id
+            dispatch(getUserDetails(stdID, "Student"));
+            // const { studentID, subjectID } = params
+            // setStudentID(studentID);
+            // dispatch(getUserDetails(studentID, "Student"));
+            // setChosenSubName(subjectID);
         }
     }, [situation]);
 
-    useEffect(() => {
-        if (userDetails && userDetails.sclassName && situation === "Student") {
-            dispatch(getSubjectList(userDetails.sclassName._id, "ClassSubjects"));
-        }
-    }, [dispatch, userDetails]);
+    // useEffect(() => {
+    //     if (userDetails && userDetails.sclassName && situation === "Student") {
+    //         dispatch(getSubjectList(userDetails.sclassName._id, "ClassSubjects"));
+    //     }
+    // }, [dispatch, userDetails]);
 
-    const changeHandler = (event) => {
-        const selectedSubject = subjectsList.find(
-            (subject) => subject.subName === event.target.value
-        );
-        setSubjectName(selectedSubject.subName);
-        setChosenSubName(selectedSubject._id);
-    }
+    // const changeHandler = (event) => {
+    //     const selectedSubject = subjectsList.find(
+    //         (subject) => subject.subName === event.target.value
+    //     );
+    //     setSubjectName(selectedSubject.subName);
+    //     setChosenSubName(selectedSubject._id);
+    // }
 
-    const fields = { subName: chosenSubName, status, date }
+    const fields = { status, date }
 
     const submitHandler = (event) => {
         event.preventDefault()
@@ -122,7 +125,7 @@ const StudentAttendance = ({ situation }) => {
                             </Stack>
                             <form onSubmit={submitHandler}>
                                 <Stack spacing={3}>
-                                    {
+                                    {/* {
                                         situation === "Student" &&
                                         <FormControl fullWidth>
                                             <InputLabel id="demo-simple-select-label">Select Subject</InputLabel>
@@ -146,7 +149,7 @@ const StudentAttendance = ({ situation }) => {
                                                 }
                                             </Select>
                                         </FormControl>
-                                    }
+                                    } */}
                                     <FormControl fullWidth>
                                         <InputLabel id="demo-simple-select-label">Attendance Status</InputLabel>
                                         <Select

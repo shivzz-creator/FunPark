@@ -79,8 +79,8 @@ const getStudentDetail = async (req, res) => {
         let student = await Student.findById(req.params.id)
             .populate("school", "schoolName")
             .populate("sclassName", "sclassName")
-            .populate("examResult.subName", "subName")
-            .populate("attendance.subName", "subName sessions");
+            // .populate("examResult.subName", "subName")
+            // .populate("attendance.subName", "subName sessions");
         if (student) {
             student.password = undefined;
             res.send(student);
@@ -173,7 +173,7 @@ const updateExamResult = async (req, res) => {
 };
 
 const studentAttendance = async (req, res) => {
-    const { subName, status, date } = req.body;
+    const {  status, date } = req.body;
 
     try {
         const student = await Student.findById(req.params.id);
@@ -182,29 +182,30 @@ const studentAttendance = async (req, res) => {
             return res.send({ message: 'Student not found' });
         }
 
-        const subject = await Subject.findById(subName);
+        // const subject = await Subject.findById(subName);
 
         const existingAttendance = student.attendance.find(
             (a) =>
-                a.date.toDateString() === new Date(date).toDateString() &&
-                a.subName.toString() === subName
+                a.date.toDateString() === new Date(date).toDateString() && true
+                // a.subName.toString() === subName
         );
 
         if (existingAttendance) {
             existingAttendance.status = status;
-        } else {
+        } 
+        else {
+            student.attendance.push({ date, status });
+
             // Check if the student has already attended the maximum number of sessions
-            const attendedSessions = student.attendance.filter(
-                (a) => a.subName.toString() === subName
-            ).length;
-
-            if (attendedSessions >= subject.sessions) {
-                return res.send({ message: 'Maximum attendance limit reached' });
-            }
-
-            student.attendance.push({ date, status, subName });
+            // const attendedSessions = student.attendance.filter(
+            //     (a) => a.subName.toString() === subName
+            // ).length;
+            
+            // if (attendedSessions >= subject.sessions) {
+            //     return res.send({ message: 'Maximum attendance limit reached' });
+            // }       
         }
-
+        
         const result = await student.save();
         return res.send(result);
     } catch (error) {
@@ -256,7 +257,6 @@ const removeStudentAttendanceBySubject = async (req, res) => {
         res.status(500).json(error);
     }
 };
-
 
 const removeStudentAttendance = async (req, res) => {
     const studentId = req.params.id;

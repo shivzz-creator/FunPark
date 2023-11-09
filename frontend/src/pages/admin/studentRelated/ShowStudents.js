@@ -96,6 +96,7 @@ const ShowStudents = () => {
         };
 
         const handleAttendance = () => {
+            // console.log(row);
             navigate("/Admin/students/student/attendance/" + row.id)
         }
         const handleMarks = () => {

@@ -40,7 +40,7 @@ const AdminHomePage = () => {
                         <StyledPaper>
                             <img src={Students} alt="Students" />
                             <Title>
-                                Total Students
+                                Total Employees
                             </Title>
                             <Data start={0} end={numberOfStudents} duration={2.5} />
                         </StyledPaper>
@@ -49,12 +49,12 @@ const AdminHomePage = () => {
                         <StyledPaper>
                             <img src={Classes} alt="Classes" />
                             <Title>
-                                Total Classes
+                                Total Zones
                             </Title>
                             <Data start={0} end={numberOfClasses} duration={5} />
                         </StyledPaper>
                     </Grid>
-                    <Grid item xs={12} md={3} lg={3}>
+                    {/* <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
                             <img src={Teachers} alt="Teachers" />
                             <Title>
@@ -62,15 +62,15 @@ const AdminHomePage = () => {
                             </Title>
                             <Data start={0} end={numberOfTeachers} duration={2.5} />
                         </StyledPaper>
-                    </Grid>
-                    <Grid item xs={12} md={3} lg={3}>
+                    </Grid> */}
+                    {/* <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
                             <img src={Fees} alt="Fees" />
                             <Title>
                                 Fees Collection
                             </Title>
                             <Data start={0} end={23000} duration={2.5} prefix="$" />                        </StyledPaper>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12} md={12} lg={12}>
                         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                             <SeeNotice />
