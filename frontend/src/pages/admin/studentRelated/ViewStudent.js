@@ -344,9 +344,9 @@ const ViewStudent = () => {
             <div>
                 Name: {userDetails.name}
                 <br />
-                Roll Number: {userDetails.rollNum}
+                Employee ID: {userDetails.rollNum}
                 <br />
-                Class: {sclassName.sclassName}
+                Zone: {sclassName.sclassName}
                 <br />
                 School: {studentSchool.schoolName}
                 {

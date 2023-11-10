@@ -110,13 +110,13 @@ const ClassDetails = () => {
                             variant="contained"
                             onClick={() => navigate("/Admin/addsubject/" + classID)}
                         >
-                            Add Subjects
+                            Add Zones
                         </GreenButton>
                     </Box>
                     :
                     <>
                         <Typography variant="h5" gutterBottom>
-                            Subjects List:
+                            Zones List:
                         </Typography>
 
                         <TableTemplate buttonHaver={SubjectsButtonHaver} columns={subjectColumns} rows={subjectRows} />
@@ -234,7 +234,7 @@ const ClassDetails = () => {
                         variant="contained"
                         onClick={() => navigate("/Admin/class/addstudents/" + classID)}
                     >
-                        Add Students
+                        Add Employee
                     </GreenButton>
                 }
                 {response &&
@@ -242,7 +242,7 @@ const ClassDetails = () => {
                         variant="contained"
                         onClick={() => navigate("/Admin/addsubject/" + classID)}
                     >
-                        Add Subjects
+                        Add Zones
                     </GreenButton>
                 }
             </>

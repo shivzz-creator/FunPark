@@ -82,10 +82,10 @@ const StudentSubjects = () => {
         return (
             <Container>
                 <Typography variant="h4" align="center" gutterBottom>
-                    Class Details
+                    Zone Details
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                    You are currently in Class {sclassDetails && sclassDetails.sclassName}
+                    You are currently in Zone {sclassDetails && sclassDetails.sclassName}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     And these are the subjects:

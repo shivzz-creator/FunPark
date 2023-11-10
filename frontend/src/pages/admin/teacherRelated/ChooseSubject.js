@@ -40,7 +40,7 @@ const ChooseSubject = ({ situation }) => {
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
                 <PurpleButton variant="contained"
                     onClick={() => navigate("/Admin/addsubject/" + classID)}>
-                    Add Subjects
+                    Add Zones
                 </PurpleButton>
             </Box>
         </div>;

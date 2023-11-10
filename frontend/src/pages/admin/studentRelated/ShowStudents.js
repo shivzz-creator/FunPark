@@ -64,9 +64,9 @@ const ShowStudents = () => {
 
     const studentColumns = [
         { id: 'name', label: 'Name', minWidth: 170 },
-        { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
-        { id: 'sclassName', label: 'Class', minWidth: 170 },
-        { id: "editZone", label: 'editZone', minWidth: 100 }
+        { id: 'rollNum', label: 'Employee ID', minWidth: 100 },
+        { id: 'sclassName', label: 'Zone', minWidth: 170 },
+        { id: "editZone", label: 'EditZone', minWidth: 100 }
     ]
     const classNames = sclassesList.map((sclass) => sclass.sclassName);
     const studentRows = studentsList && studentsList.length > 0 && studentsList.map((student) => {
@@ -187,11 +187,11 @@ const ShowStudents = () => {
 
     const actions = [
         {
-            icon: <PersonAddAlt1Icon color="primary" />, name: 'Add New Student',
+            icon: <PersonAddAlt1Icon color="primary" />, name: 'Add New Employee',
             action: () => navigate("/Admin/addstudents")
         },
         {
-            icon: <PersonRemoveIcon color="error" />, name: 'Delete All Students',
+            icon: <PersonRemoveIcon color="error" />, name: 'Delete All Employees',
             action: () => deleteHandler(currentUser._id, "Students")
         },
     ];
