@@ -1,106 +1,128 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Card, CardContent, Typography, Grid, Box, Avatar, Container, Paper } from '@mui/material';
 import { useSelector } from 'react-redux';
+// import QRCode from 'qrcode.react';
+// import { useParams, useNavigate } from 'react-router-dom';
 
-const StudentProfile = () => {
-  const { currentUser, response, error } = useSelector((state) => state.user);
+import StarRating from './StarRating';
+import './starRating.css';
+import './EmployeeProfile.css';
+import QRCode from 'qrcode.react';
 
-  if (response) { console.log(response) }
-  else if (error) { console.log(error) }
 
-  const sclassName = currentUser.sclassName
-  const studentSchool = currentUser.school
+const EmployeeProfile = () => {
+  const { userDetails, currentUser, response, error } = useSelector((state) => state.user);
 
+  if (response) {
+    console.log(response);
+  } else if (error) {
+    console.log(error);
+  }
+  // const totalDays = userDetails.attendance.length;
+
+  // // Step 2: Count the number of "Present" days
+  // const presentDays = userDetails.attendance.filter((entry) => entry.status === "Present").length;
+
+  // // Step 3: Calculate the attendance percentage
+  // const attendancePercentage = (presentDays / totalDays) * 100;
+
+  // console.log(`Attendance Percentage: ${attendancePercentage}%`);
+  const qrCodeData = {
+    name: currentUser.name,
+    rollNum: currentUser.rollNum,
+    bloodGroup: currentUser.bloodGroup,
+    address: currentUser.address,
+    dateOfJoining: currentUser.dateOfJoining,
+    insurancePolicyNumber: currentUser.insurancePolicyNumber,
+    redirectLink:"www.google.com"
+  };
+  const qrCodeString = JSON.stringify(qrCodeData);
+
+  console.log(qrCodeString);
   return (
-    <>
-      <Container maxWidth="md">
-        <StyledPaper elevation={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
-                <Avatar alt="Student Avatar" sx={{ width: 150, height: 150 }}>
-                  {String(currentUser.name).charAt(0)}
-                </Avatar>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
-                <Typography variant="h5" component="h2" textAlign="center">
-                  {currentUser.name}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
-                <Typography variant="subtitle1" component="p" textAlign="center">
-                  Student Roll No: {currentUser.rollNum}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
-                <Typography variant="subtitle1" component="p" textAlign="center">
-                  Class: {sclassName.sclassName}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center">
-                <Typography variant="subtitle1" component="p" textAlign="center">
-                  School: {studentSchool.schoolName}
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </StyledPaper>
-        <Card>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Personal Information
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" component="p">
-                  <strong>Date of Birth:</strong> January 1, 2000
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" component="p">
-                  <strong>Gender:</strong> Male
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" component="p">
-                  <strong>Email:</strong> john.doe@example.com
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" component="p">
-                  <strong>Phone:</strong> (123) 456-7890
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" component="p">
-                  <strong>Address:</strong> 123 Main Street, City, Country
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="subtitle1" component="p">
-                  <strong>Emergency Contact:</strong> (987) 654-3210
-                </Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      </Container>
-    </>
-  )
+    <Container maxWidth="md" style={{ background: '#f0f2f5', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
+          <Avatar alt="Employee Avatar" src={currentUser.profilePicture || 'default-avatar.jpg'} sx={{ width: 150, height: 150, backgroundColor: '#fff', border: '2px solid #4db5ff', borderRadius: '50%' }} />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h5" component="h2" style={{ textAlign: 'center', fontSize: '24px', marginBottom: '10px', fontWeight: 'bold' }}>
+            {currentUser.name} 🌟
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" component="p" style={{ textAlign: 'center', fontSize: '16px', color: '#333', fontWeight: 'bold' }}>
+            <span role="img" aria-label="Employee ID">Employee 🆔</span> {currentUser.rollNum}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" component="p" style={{ textAlign: 'center', fontSize: '16px', color: '#333' }}>
+            <span style={{ fontWeight: 'bold' }}>Blood Group:</span> {currentUser.bloodGroup} 💉
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" component="p" style={{ textAlign: 'center', fontSize: '16px', color: '#333' }}>
+            <span style={{ fontWeight: 'bold' }}>Address:</span> {currentUser.address} 🏠
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" component="p" style={{ textAlign: 'center', fontSize: '16px', color: '#333' }}>
+            <span style={{ fontWeight: 'bold' }}>Date of Joining:</span> {currentUser.dateOfJoining} 📅
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="subtitle1" component="p" style={{ textAlign: 'center', fontSize: '16px', color: '#333' }}>
+            <span style={{ fontWeight: 'bold' }}>Insurance Policy Number:</span> {currentUser.insurancePolicyNumber} 💉
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', fontWeight: 'bold' }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold' }}>
+            Highlighted Leader Board Ranking 🏆
+          </Typography>
+          {/* Add your code for leader board ranking here */}
+        </CardContent>
+      </Card>
+
+      <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', fontWeight: 'bold' }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom style={ {fontWeight: 'bold'} }>
+            Ratings in Stars ⭐
+          </Typography>
+          <StarRating rating={currentUser.starRating} />
+        </CardContent>
+      </Card>
+
+      <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold' }}>
+            Attendance and Leave Details 📊
+          </Typography>
+          {"50%"}
+        </CardContent>
+      </Card>
+      <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold' }}>
+            Incentives earned so far
+          </Typography>
+          { 0}
+        </CardContent>
+      </Card>
+      <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold' }}>
+            QR Code
+          </Typography>
+          {/* Display the QR code */}
+          <QRCode value={qrCodeString} />
+        </CardContent>
+      </Card>
+    </Container>
+  );
 }
 
-export default StudentProfile
-
-const StyledPaper = styled(Paper)`
-  padding: 20px;
-  margin-bottom: 20px;
-`;
+export default EmployeeProfile;

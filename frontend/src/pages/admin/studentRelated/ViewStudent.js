@@ -176,7 +176,7 @@ const ViewStudent = () => {
                                                 <DeleteIcon color="error" />
                                             </IconButton>
                                             <Button variant="contained" sx={styles.attendanceButton}
-                                                onClick={() => navigate(`/Admin/subject/student/attendance/${studentID}/${subId}`)}>
+                                                onClick={() => navigate(`/Admin/subject/student/attendance/${studentID}`)}>
                                                 Change
                                             </Button>
                                         </StyledTableCell>
@@ -344,9 +344,9 @@ const ViewStudent = () => {
             <div>
                 Name: {userDetails.name}
                 <br />
-                Roll Number: {userDetails.rollNum}
+                Employee ID: {userDetails.rollNum}
                 <br />
-                Class: {sclassName.sclassName}
+                Zone: {sclassName.sclassName}
                 <br />
                 School: {studentSchool.schoolName}
                 {

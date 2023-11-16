@@ -49,7 +49,7 @@ const StudentHomePage = () => {
                         <StyledPaper>
                             <img src={Subject} alt="Subjects" />
                             <Title>
-                                Total Subjects
+                                Total Zones
                             </Title>
                             <Data start={0} end={numberOfSubjects} duration={2.5} />
                         </StyledPaper>

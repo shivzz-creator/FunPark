@@ -95,7 +95,7 @@ const ChooseUser = ({ visitor }) => {
                 <StyledTypography>
                   Admin
                 </StyledTypography>
-                Login as an administrator to access the dashboard to manage app data.
+                Login as an administrator
               </StyledPaper>
             </div>
           </Grid>
@@ -106,13 +106,13 @@ const ChooseUser = ({ visitor }) => {
                   <School fontSize="large" />
                 </Box>
                 <StyledTypography>
-                  Student
+                  Employee
                 </StyledTypography>
-                Login as a student to explore course materials and assignments.
+                Login as an Employee
               </div>
             </StyledPaper>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          {/* <Grid item xs={12} sm={6} md={4}>
             <StyledPaper elevation={3}>
               <div onClick={() => navigateHandler("Teacher")}>
                 <Box mb={2}>
@@ -124,7 +124,7 @@ const ChooseUser = ({ visitor }) => {
                 Login as a teacher to create courses, assignments, and track student progress.
               </div>
             </StyledPaper>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
       <Backdrop

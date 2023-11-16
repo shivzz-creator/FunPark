@@ -67,7 +67,7 @@ const ViewSubject = () => {
         <PurpleButton
           variant="contained"
           onClick={() =>
-            navigate(`/Admin/subject/student/attendance/${row.id}/${subjectID}`)
+            navigate(`/Admin/subject/student/attendance/${row.id}`)
           }
         >
           Take Attendance

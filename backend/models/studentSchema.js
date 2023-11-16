@@ -27,6 +27,35 @@ const studentSchema = new mongoose.Schema({
         type: String,
         default: "Student"
     },
+    dateOfJoining: {
+        type: Date,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+        // You can define other properties like required, default values, etc. as needed.
+    },
+    insurancePolicyNumber: {
+        type: String,
+        required: true
+        // You can define other properties like required, default values, etc. as needed.
+    },
+    bloodGroup: {
+        type: String,
+        required: true
+        // You can define other properties like required, default values, etc. as needed.
+    },
+    stars: {
+        type: String,
+        // required: true
+        // You can define other properties like required, default values, etc. as needed.
+    },
+    rating: {
+        type: String,
+        // required: true
+        // You can define other properties like required, default values, etc. as needed.
+    },
     examResult: [
         {
             subName: {
@@ -49,11 +78,11 @@ const studentSchema = new mongoose.Schema({
             enum: ['Present', 'Absent'],
             required: true
         },
-        subName: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'subject',
-            required: true
-        }
+        // subName: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: 'subject',
+        //     required: true
+        // }
     }]
 });
 

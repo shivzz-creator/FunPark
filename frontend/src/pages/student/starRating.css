@@ -1,0 +1,26 @@
+.star-rating {
+    display: inline-block;
+}
+
+.star {
+    font-size: 24px;
+    color: #f1c40f;
+    /* Yellow color for stars */
+    display: inline-block;
+    margin: 0;
+}
+
+.full-star {
+    color: #f1c40f;
+}
+
+.half-star {
+    color: #f1c40f;
+    width: 50%;
+    overflow: hidden;
+}
+
+.empty-star {
+    color: #ccc;
+    /* Light gray for empty stars */
+}

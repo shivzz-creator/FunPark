@@ -27,25 +27,25 @@ const SideBar = () => {
                     <ListItemIcon>
                         <ClassOutlinedIcon color={location.pathname.startsWith('/Admin/classes') ? 'primary' : 'inherit'} />
                     </ListItemIcon>
-                    <ListItemText primary="Classes" />
+                    <ListItemText primary="Zones" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/subjects">
+                {/* <ListItemButton component={Link} to="/Admin/subjects">
                     <ListItemIcon>
                         <AssignmentIcon color={location.pathname.startsWith("/Admin/subjects") ? 'primary' : 'inherit'} />
                     </ListItemIcon>
                     <ListItemText primary="Subjects" />
-                </ListItemButton>
-                <ListItemButton component={Link} to="/Admin/teachers">
+                </ListItemButton> */}
+                {/* <ListItemButton component={Link} to="/Admin/teachers">
                     <ListItemIcon>
                         <SupervisorAccountOutlinedIcon color={location.pathname.startsWith("/Admin/teachers") ? 'primary' : 'inherit'} />
                     </ListItemIcon>
                     <ListItemText primary="Teachers" />
-                </ListItemButton>
+                </ListItemButton> */}
                 <ListItemButton component={Link} to="/Admin/students">
                     <ListItemIcon>
                         <PersonOutlineIcon color={location.pathname.startsWith("/Admin/students") ? 'primary' : 'inherit'} />
                     </ListItemIcon>
-                    <ListItemText primary="Students" />
+                    <ListItemText primary="Employees" />
                 </ListItemButton>
                 <ListItemButton component={Link} to="/Admin/notices">
                     <ListItemIcon>
