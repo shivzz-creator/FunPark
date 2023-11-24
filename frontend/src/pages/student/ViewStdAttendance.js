@@ -4,7 +4,7 @@ import { BottomNavigation, BottomNavigationAction, Box, Button, Collapse, Paper,
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../redux/userRelated/userHandle';
 import { calculateOverallAttendancePercentage, calculateSubjectAttendancePercentage, groupAttendanceBySubject } from '../../components/attendanceCalculator';
-
+import { saveAs } from 'file-saver';
 import CustomBarChart from '../../components/CustomBarChart'
 
 import InsertChartIcon from '@mui/icons-material/InsertChart';
@@ -12,194 +12,132 @@ import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import { StyledTableCell, StyledTableRow } from '../../components/styles';
-
+import * as XLSX from 'xlsx';
 const ViewStdAttendance = () => {
     const dispatch = useDispatch();
 
     const [openStates, setOpenStates] = useState({});
+    const [groupedAttendance, setgroupedAttendance] = useState([]);
 
-    // const handleOpen = (subId) => {
-    //     setOpenStates((prevState) => ({
-    //         ...prevState,
-    //         [subId]: !prevState[subId],
-    //     }));
-    // };
+
 
     const { userDetails, currentUser, loading, response, error } = useSelector((state) => state.user);
-    // console.log(userDetails);
-    console.log(currentUser);
+
+    useEffect(() => {
+        if (userDetails.attendance) {
+            const sortedAttendance = [...userDetails.attendance].sort((a, b) => new Date(a.date) - new Date(b.date));
+            setgroupedAttendance(sortedAttendance);
+        }
+
+    }, [userDetails])
 
     useEffect(() => {
         dispatch(getUserDetails(currentUser._id, "Student"));
+        console.log(currentUser.name);
     }, [dispatch, currentUser._id]);
+    const handleExportToExcel = () => {
+
+        if (groupedAttendance.length === 0) {
+            alert('No data to export.');
+            return;
+        }
+
+        // Prepare data for export
+        const dataForExport = [['Date', 'Status']];
+        groupedAttendance.forEach((entry) => {
+            dataForExport.push([formatDate(entry.date), entry.status]);
+        });
+
+        // Create a new workbook
+        const ws = XLSX.utils.aoa_to_sheet(dataForExport);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Attendance Data');
+
+        // Save the workbook to an Excel file
+        const excelFileName = `${currentUser.name} AttendanceData.xlsx`;
+        XLSX.writeFile(wb, excelFileName);
+    };
 
     if (response) { console.log(response) }
     else if (error) { console.log(error) }
     // Step 1: Calculate the total number of days
-    const totalDays = userDetails.attendance.length;
+    let attendancePercentage;
+    // let groupedAttendance=[];
+    if (userDetails.attendance) {
+        const totalDays = userDetails.attendance.length;
+        const presentDays = userDetails.attendance.filter((entry) => entry.status === "Present").length;
 
-    // Step 2: Count the number of "Present" days
-    const presentDays = userDetails.attendance.filter((entry) => entry.status === "Present").length;
+        attendancePercentage = (presentDays / totalDays) * 100;
 
-    // Step 3: Calculate the attendance percentage
-    const attendancePercentage = (presentDays / totalDays) * 100;
+        console.log(`Attendance Percentage: ${attendancePercentage}%`);
 
-    console.log(`Attendance Percentage: ${attendancePercentage}%`);
-    // const [subjectAttendance, setSubjectAttendance] = useState([]);
-    // const [selectedSection, setSelectedSection] = useState('table');
+    }
 
-    // console.log(subjectAttendance);
 
-    // useEffect(() => {
-    //     if (userDetails) {
-    //         setSubjectAttendance(userDetails.attendance || []);
-    //     }
-    // }, [userDetails])
-
-    // const attendanceBySubject = groupAttendanceBySubject(subjectAttendance)
-
-    // const overallAttendancePercentage = calculateOverallAttendancePercentage(subjectAttendance);
-
-    // const subjectData = Object.entries(attendanceBySubject).map(([subName, { subCode, present, sessions }]) => {
-    //     const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
-    //     return {
-    //         subject: subName,
-    //         attendancePercentage: subjectAttendancePercentage,
-    //         totalClasses: sessions,
-    //         attendedClasses: present
-    //     };
-    // });
-
-    // const handleSectionChange = (event, newSection) => {
-    //     setSelectedSection(newSection);
-    // };
-
-    // const renderTableSection = () => {
-    //     return (
-    //         <>
-    //             <Typography variant="h4" align="center" gutterBottom>
-    //                 Attendance
-    //             </Typography>
-    //             <Table>
-    //                 <TableHead>
-    //                     <StyledTableRow>
-    //                         {/* <StyledTableCell>Subject</StyledTableCell> */}
-    //                         <StyledTableCell>Present</StyledTableCell>
-    //                         <StyledTableCell>Total Sessions</StyledTableCell>
-    //                         <StyledTableCell>Attendance Percentage</StyledTableCell>
-    //                         <StyledTableCell align="center">Actions</StyledTableCell>
-    //                     </StyledTableRow>
-    //                 </TableHead>
-    //                 {/* {Object.entries(attendanceBySubject).map(([subName, { present, allData, subId, sessions }], index) => {
-    //                     const subjectAttendancePercentage = calculateSubjectAttendancePercentage(present, sessions);
-
-    //                     return (
-    //                         <TableBody key={index}>
-    //                             <StyledTableRow>
-    //                                 <StyledTableCell>{subName}</StyledTableCell>
-    //                                 <StyledTableCell>{present}</StyledTableCell>
-    //                                 <StyledTableCell>{sessions}</StyledTableCell>
-    //                                 <StyledTableCell>{subjectAttendancePercentage}%</StyledTableCell>
-    //                                 <StyledTableCell align="center">
-    //                                     <Button variant="contained"
-    //                                         onClick={() => handleOpen(subId)}>
-    //                                         {openStates[subId] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}Details
-    //                                     </Button>
-    //                                 </StyledTableCell>
-    //                             </StyledTableRow>
-    //                             <StyledTableRow>
-    //                                 <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-    //                                     <Collapse in={openStates[subId]} timeout="auto" unmountOnExit>
-    //                                         <Box sx={{ margin: 1 }}>
-    //                                             <Typography variant="h6" gutterBottom component="div">
-    //                                                 Attendance Details
-    //                                             </Typography>
-    //                                             <Table size="small" aria-label="purchases">
-    //                                                 <TableHead>
-    //                                                     <StyledTableRow>
-    //                                                         <StyledTableCell>Date</StyledTableCell>
-    //                                                         <StyledTableCell align="right">Status</StyledTableCell>
-    //                                                     </StyledTableRow>
-    //                                                 </TableHead>
-    //                                                 <TableBody>
-    //                                                     {allData.map((data, index) => {
-    //                                                         const date = new Date(data.date);
-    //                                                         const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
-    //                                                         return (
-    //                                                             <StyledTableRow key={index}>
-    //                                                                 <StyledTableCell component="th" scope="row">
-    //                                                                     {dateString}
-    //                                                                 </StyledTableCell>
-    //                                                                 <StyledTableCell align="right">{data.status}</StyledTableCell>
-    //                                                             </StyledTableRow>
-    //                                                         )
-    //                                                     })}
-    //                                                 </TableBody>
-    //                                             </Table>
-    //                                         </Box>
-    //                                     </Collapse>
-    //                                 </StyledTableCell>
-    //                             </StyledTableRow>
-    //                         </TableBody>
-    //                     )
-    //                 }
-    //                 )} */}
-    //             </Table>
-    //             <div>
-    //                 Overall Attendance Percentage: {overallAttendancePercentage.toFixed(2)}%
-    //             </div>
-    //         </>
-    //     )
-    // }
-
-    // const renderChartSection = () => {
-    //     return (
-    //         <>
-    //             <CustomBarChart chartData={subjectData} dataKey="attendancePercentage" />
-    //         </>
-    //     )
-    // };
-    // console.log(userDetails.attendance);
     return (
         <>
-            <>{attendancePercentage}</>
-            {/* {loading
-                ? (
-                    <div>Loading...</div>
-                )
-                :
-                <div>
-                    {subjectAttendance && Array.isArray(subjectAttendance) && subjectAttendance.length > 0 ?
-                        <>
-                            {selectedSection === 'table' && renderTableSection()}
-                            {selectedSection === 'chart' && renderChartSection()}
+            <h1 style={{ textAlign: 'center', color: '#333' }}>Attendance Percentage {attendancePercentage}%</h1>
+            <div style={{ margin: '20px', textAlign: 'center' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+                    <thead>
+                        <tr>
+                            <th style={tableHeaderStyle}>Date</th>
+                            <th style={tableHeaderStyle}>Status</th>
+                            {/* Add more table headers for additional properties */}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {groupedAttendance.map((value, ind) => (
+                            <tr key={ind} style={tableRowStyle}>
+                                <td style={tableCellStyle}>
+                                    <span style={dateStyle}>{formatDate(value.date)}</span>
+                                </td>
+                                <td style={tableCellStyle}>
+                                    <span style={statusStyle}>{value.status}</span>
+                                </td>
+                                {/* Add more table cells for additional properties */}
+                            </tr>
+                        ))}
+                    </tbody>
+                    <Button variant="contained" color="primary" onClick={handleExportToExcel}>
+                        Export to Excel
+                    </Button>
+                </table>
+            </div>
 
-                            <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-                                <BottomNavigation value={selectedSection} onChange={handleSectionChange} showLabels>
-                                    <BottomNavigationAction
-                                        label="Table"
-                                        value="table"
-                                        icon={selectedSection === 'table' ? <TableChartIcon /> : <TableChartOutlinedIcon />}
-                                    />
-                                    <BottomNavigationAction
-                                        label="Chart"
-                                        value="chart"
-                                        icon={selectedSection === 'chart' ? <InsertChartIcon /> : <InsertChartOutlinedIcon />}
-                                    />
-                                </BottomNavigation>
-                            </Paper>
-                        </>
-                        :
-                        <>
-                            <Typography variant="h6" gutterBottom component="div">
-                                Currently You Have No Attendance Details
-                            </Typography>
-                        </>
-                    }
-                </div>
-            } */}
+
         </>
     )
 }
+const tableHeaderStyle = {
+    background: '#f2f2f2',
+    padding: '10px',
+    borderBottom: '1px solid #ddd',
+    textAlign: 'left',
+};
 
+const tableRowStyle = {
+    borderBottom: '1px solid #ddd',
+};
+
+const tableCellStyle = {
+    padding: '10px',
+};
+
+const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
+    return formattedDate;
+};
+const dateStyle = {
+    display: 'block', // To place each date on a new line
+    fontWeight: 'bold', // Optional: Make the date bold
+    textAlign: 'left',
+};
+
+const statusStyle = {
+    textAlign: 'left',
+    display: 'block', // To place each status on a new line
+    // You can add more styles as needed
+};
 export default ViewStdAttendance

@@ -24,7 +24,6 @@ export const getAllStudents = (id) => async (dispatch) => {
 
 export const updateStudentFields = (id, fields, address) => async (dispatch) => {
     dispatch(getRequest());
-
     try {
         const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, fields, {
             headers: { 'Content-Type': 'application/json' },
