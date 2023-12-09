@@ -18,6 +18,7 @@ import SpeedDialTemplate from "../../../components/SpeedDialTemplate";
 import Popup from "../../../components/Popup";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PostAddIcon from '@mui/icons-material/PostAdd';
+// import bg from "../../assets/bg3.jpeg";
 
 const ClassDetails = () => {
     const params = useParams()
@@ -192,7 +193,7 @@ const ClassDetails = () => {
                 ) : (
                     <>
                         <Typography variant="h5" gutterBottom>
-                            Students List:
+                            Employees List:
                         </Typography>
 
                         <TableTemplate buttonHaver={StudentsButtonHaver} columns={studentColumns} rows={studentRows} />
@@ -218,16 +219,16 @@ const ClassDetails = () => {
         return (
             <>
                 <Typography variant="h4" align="center" gutterBottom>
-                    Class Details
+                    Zone Details
                 </Typography>
                 <Typography variant="h5" gutterBottom>
-                    This is Class {sclassDetails && sclassDetails.sclassName}
+                    This is Zone {sclassDetails && sclassDetails.sclassName}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    Number of Subjects: {numberOfSubjects}
+                    Number of Activities: {numberOfSubjects}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    Number of Students: {numberOfStudents}
+                    Number of Employees: {numberOfStudents}
                 </Typography>
                 {getresponse &&
                     <GreenButton
@@ -260,9 +261,9 @@ const ClassDetails = () => {
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                 <TabList onChange={handleChange} sx={{ position: 'fixed', width: '100%', bgcolor: 'background.paper', zIndex: 1 }}>
                                     <Tab label="Details" value="1" />
-                                    <Tab label="Subjects" value="2" />
-                                    <Tab label="Students" value="3" />
-                                    <Tab label="Teachers" value="4" />
+                                    <Tab label="Activities" value="2" />
+                                    <Tab label="Employees" value="3" />
+                                    {/* <Tab label="Teachers" value="4" /> */}
                                 </TabList>
                             </Box>
                             <Container sx={{ marginTop: "3rem", marginBottom: "4rem" }}>

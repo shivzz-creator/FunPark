@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import { getAllComplains } from '../../../redux/complainRelated/complainHandle';
 import TableTemplate from '../../../components/TableTemplate';
+import bg from "../../../assets/bg3.jpeg";
 
 const SeeComplains = () => {
 
@@ -56,7 +57,14 @@ const SeeComplains = () => {
               No Complains Right Now
             </Box>
             :
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <Paper sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              backgroundImage: `url(${bg})`, // Set the background image here
+              backgroundSize: 'cover', // Optional: Adjust the background size
+              minHeight: '100vh'}}>
               {Array.isArray(complainsList) && complainsList.length > 0 &&
                 <TableTemplate buttonHaver={ComplainButtonHaver} columns={complainColumns} rows={complainRows} />
               }

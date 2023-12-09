@@ -4,6 +4,7 @@ import Popup from '../../components/Popup';
 import { BlueButton } from '../../components/buttonStyles';
 import { addStuff } from '../../redux/userRelated/userHandle';
 import { useDispatch, useSelector } from 'react-redux';
+import bg from '../../assets/bg3.jpeg';
 
 const StudentComplain = () => {
     const [complaint, setComplaint] = useState("");
@@ -48,7 +49,7 @@ const StudentComplain = () => {
     }, [status, error])
 
     return (
-        <>
+        <div style={{ backgroundImage: `url(${bg})`, backgroundSize: 'cover', minHeight: '100vh' }}>
             <Box
                 sx={{
                     flex: '1 1 auto',
@@ -65,7 +66,7 @@ const StudentComplain = () => {
                         width: '100%'
                     }}
                 >
-                    <div>
+                    <div >
                         <Stack spacing={1} sx={{ mb: 3 }}>
                             <Typography variant="h4">Complain</Typography>
                         </Stack>
@@ -109,7 +110,7 @@ const StudentComplain = () => {
                 </Box>
             </Box>
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-        </>
+        </div>
     );
 };
 

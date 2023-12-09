@@ -16,7 +16,7 @@ const sclassCreate = async (req, res) => {
         });
 
         if (existingSclassByName) {
-            res.send({ message: 'Sorry this class name already exists' });
+            res.send({ message: 'Sorry this Zone name already exists' });
         }
         else {
             const result = await sclass.save();

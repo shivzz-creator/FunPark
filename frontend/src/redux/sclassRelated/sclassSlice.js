@@ -11,6 +11,7 @@ const initialState = {
     error: null,
     response: null,
     getresponse: null,
+    isChecked:false
 };
 
 const sclassSlice = createSlice({
@@ -35,6 +36,7 @@ const sclassSlice = createSlice({
             state.error = null;
             state.getresponse = null;
         },
+        
         getSubjectsSuccess: (state, action) => {
             state.subjectsList = action.payload;
             state.loading = false;
@@ -71,6 +73,12 @@ const sclassSlice = createSlice({
         resetSubjects: (state) => {
             state.subjectsList = [];
             state.sclassesList = [];
+        }, 
+        updateSubSuccess: (state, action) => {
+            state.isChecked = action.payload;
+            state.loading = false;
+            state.error = null;
+            state.response = null;
         },
     },
 });
@@ -86,7 +94,8 @@ export const {
     getFailedTwo,
     resetSubjects,
     getSubDetailsSuccess,
-    getSubDetailsRequest
+    getSubDetailsRequest,
+    updateSubSuccess
 } = sclassSlice.actions;
 
 export const sclassReducer = sclassSlice.reducer;

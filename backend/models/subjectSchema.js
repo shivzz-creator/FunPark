@@ -11,7 +11,7 @@ const subjectSchema = new mongoose.Schema({
     },
     sessions: {
         type: String,
-        required: true,
+        // required: true,
     },
     sclassName: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,7 +25,12 @@ const subjectSchema = new mongoose.Schema({
     teacher: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'teacher',
-    }
+    },
+    isChecked:{
+        type:Boolean,
+        default:false
+    },
+    
 }, { timestamps: true });
 
 module.exports = mongoose.model("subject", subjectSchema);

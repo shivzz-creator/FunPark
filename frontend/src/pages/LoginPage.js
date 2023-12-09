@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, Box, Typography, Paper, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop } from '@mui/material';
+import { Button, Grid, Box, Typography, Paper, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop, colors } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import bgpic from "../assets/designlogin.jpg"
+import bgpic from "../assets/Fun-Family.jpg"
 import { LightPurpleButton } from '../components/buttonStyles';
 import styled from 'styled-components';
 import { loginUser } from '../redux/userRelated/userHandle';
@@ -134,12 +134,14 @@ const LoginPage = ({ role }) => {
                             alignItems: 'center',
                         }}
                     >
-                        <Typography variant="h4" sx={{ mb: 2, color: "#2c2143" }}>
-                            {role} Login
+                        <Typography variant="h4" sx={{ mb: 2, color: '#0C53A3', fontWeight: 'bold', textTransform: 'uppercase', fontFamily: 'YourStylizedFont, sans-serif' }}>
+                            {role === "Student" ? "Employee" : role} Login
                         </Typography>
-                        <Typography variant="h7">
+
+                        <Typography variant="h7" sx={{ fontWeight: 'bold', color: 'black' }}>
                             Welcome back! Please enter your details
                         </Typography>
+
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
                             {role === "Student" ? (
                                 <>
@@ -221,7 +223,8 @@ const LoginPage = ({ role }) => {
                                     Forgot password?
                                 </StyledLink> */}
                             </Grid>
-                            <LightPurpleButton
+                            <Button
+
                                 type="submit"
                                 fullWidth
                                 variant="contained"
@@ -230,7 +233,7 @@ const LoginPage = ({ role }) => {
                                 {loader ?
                                     <CircularProgress size={24} color="inherit" />
                                     : "Login"}
-                            </LightPurpleButton>
+                            </Button>
                             {/* <Button
                                 fullWidth
                                 onClick={guestModeHandler}
@@ -262,10 +265,11 @@ const LoginPage = ({ role }) => {
                     sx={{
                         backgroundImage: `url(${bgpic})`,
                         backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
+                        height: '100%', // Set the height to 100% to cover the entire container
+                        width: '100%', // Set the width to 100% to cover the entire container
+                        backgroundSize: 'contain',
                         backgroundPosition: 'center',
+                        backgroundColor:"#83CE89"
                     }}
                 />
             </Grid>

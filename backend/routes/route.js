@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+// const { updateSubjectDetails } = require('../../frontend/src/redux/sclassRelated/sclassHandle.js');
 // const { adminRegister, adminLogIn, deleteAdmin, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
 
 const { adminRegister, adminLogIn, getAdminDetail } = require('../controllers/admin-controller.js');
@@ -24,7 +25,7 @@ const {
     removeStudentAttendance,
     updateZone
 } = require('../controllers/student_controller.js');
-const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } = require('../controllers/subject-controller.js');
+const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects, updateSubjectFields } = require('../controllers/subject-controller.js');
 const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
 
 // Admin
@@ -115,7 +116,7 @@ router.get("/Sclass/Students/:id", getSclassStudents)
 
 router.delete("/Sclasses/:id", deleteSclasses)
 router.delete("/Sclass/:id", deleteSclass)
-
+router.put("/checkedActivities/:id", updateSubjectFields)
 // Subject
 
 router.post('/SubjectCreate', subjectCreate);

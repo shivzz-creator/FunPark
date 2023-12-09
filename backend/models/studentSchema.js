@@ -46,6 +46,12 @@ const studentSchema = new mongoose.Schema({
         required: true
         // You can define other properties like required, default values, etc. as needed.
     },
+    incentiveEarned: {
+        type: Number,
+        required: true,
+        default: 0
+        // You can define other properties like required, default values, etc. as needed.
+    },
     stars: {
         type: String,
         // required: true
@@ -83,7 +89,8 @@ const studentSchema = new mongoose.Schema({
         //     ref: 'subject',
         //     required: true
         // }
-    }]
+    }],
+
 });
 
 module.exports = mongoose.model("student", studentSchema);

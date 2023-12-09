@@ -51,7 +51,7 @@ const studentLogIn = async (req, res) => {
                 res.send({ message: "Invalid password" });
             }
         } else {
-            res.send({ message: "Student not found" });
+            res.send({ message: "Employee not found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -67,7 +67,7 @@ const getStudents = async (req, res) => {
             });
             res.send(modifiedStudents);
         } else {
-            res.send({ message: "No students found" });
+            res.send({ message: "No Employees found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -79,14 +79,14 @@ const getStudentDetail = async (req, res) => {
         let student = await Student.findById(req.params.id)
             .populate("school", "schoolName")
             .populate("sclassName", "sclassName")
-            // .populate("examResult.subName", "subName")
-            // .populate("attendance.subName", "subName sessions");
+        // .populate("examResult.subName", "subName")
+        // .populate("attendance.subName", "subName sessions");
         if (student) {
             student.password = undefined;
             res.send(student);
         }
         else {
-            res.send({ message: "No student found" });
+            res.send({ message: "No Employee found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -106,7 +106,7 @@ const deleteStudents = async (req, res) => {
     try {
         const result = await Student.deleteMany({ school: req.params.id })
         if (result.deletedCount === 0) {
-            res.send({ message: "No students found to delete" })
+            res.send({ message: "No employee found to delete" })
         } else {
             res.send(result)
         }
@@ -119,7 +119,7 @@ const deleteStudentsByClass = async (req, res) => {
     try {
         const result = await Student.deleteMany({ sclassName: req.params.id })
         if (result.deletedCount === 0) {
-            res.send({ message: "No students found to delete" })
+            res.send({ message: "No employee found to delete" })
         } else {
             res.send(result)
         }
@@ -146,25 +146,21 @@ const updateStudent = async (req, res) => {
 }
 
 const updateExamResult = async (req, res) => {
-    const { subName, marksObtained } = req.body;
+    console.log(req);
+    const { incentiveEarned } = req.body;
 
     try {
+
         const student = await Student.findById(req.params.id);
-
+        console.log(Number(incentiveEarned));
         if (!student) {
-            return res.send({ message: 'Student not found' });
+            return res.send({ message: 'employee not found' });
         }
 
-        const existingResult = student.examResult.find(
-            (result) => result.subName.toString() === subName
-        );
-
-        if (existingResult) {
-            existingResult.marksObtained = marksObtained;
-        } else {
-            student.examResult.push({ subName, marksObtained });
-        }
-
+        // const existingResult = student.incentiveEarned.find(
+        //     (result) => result.subName.toString() === subName
+        // );
+        student.incentiveEarned = Number(incentiveEarned);
         const result = await student.save();
         return res.send(result);
     } catch (error) {
@@ -173,13 +169,13 @@ const updateExamResult = async (req, res) => {
 };
 
 const studentAttendance = async (req, res) => {
-    const {  status, date } = req.body;
+    const { status, date } = req.body;
 
     try {
         const student = await Student.findById(req.params.id);
 
         if (!student) {
-            return res.send({ message: 'Student not found' });
+            return res.send({ message: 'Employee not found' });
         }
 
         // const subject = await Subject.findById(subName);
@@ -187,12 +183,12 @@ const studentAttendance = async (req, res) => {
         const existingAttendance = student.attendance.find(
             (a) =>
                 a.date.toDateString() === new Date(date).toDateString() && true
-                // a.subName.toString() === subName
+            // a.subName.toString() === subName
         );
 
         if (existingAttendance) {
             existingAttendance.status = status;
-        } 
+        }
         else {
             student.attendance.push({ date, status });
 
@@ -200,12 +196,12 @@ const studentAttendance = async (req, res) => {
             // const attendedSessions = student.attendance.filter(
             //     (a) => a.subName.toString() === subName
             // ).length;
-            
+
             // if (attendedSessions >= subject.sessions) {
             //     return res.send({ message: 'Maximum attendance limit reached' });
             // }       
         }
-        
+
         const result = await student.save();
         return res.send(result);
     } catch (error) {
@@ -277,7 +273,7 @@ const updateZone = async (req, res) => {
     const studentId = req.params.id;
     try {
         // const validSclassName = new mongoose.Types.ObjectId(req.body.sclassName);
-        const zone = await sclass.findOne({ sclassName :req.body.sclassName});
+        const zone = await sclass.findOne({ sclassName: req.body.sclassName });
         const result = await Student.findByIdAndUpdate(studentId, { sclassName: zone._id }, { new: true });
         // console.log(zone);
         return res.send(result);

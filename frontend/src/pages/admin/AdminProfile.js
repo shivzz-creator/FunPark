@@ -49,9 +49,9 @@ const AdminProfile = () => {
             Name: {currentUser.name}
             <br />
             Email: {currentUser.email}
-            <br />
+            {/* <br />
             School: {currentUser.schoolName}
-            <br />
+            <br /> */}
             {/* <Button variant="contained" color="error" onClick={deleteHandler}>Delete</Button> */}
             {/* <Button variant="contained" sx={styles.showButton}
                 onClick={() => setShowTab(!showTab)}>
