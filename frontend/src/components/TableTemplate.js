@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { updateStudentFields } from '../redux/studentRelated/studentHandle';
 
 
-
 const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(100);
@@ -15,14 +14,12 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
 
     const dispatch = useDispatch();
     // const [rows2, setRows] = useState(rows);
-
     useEffect(() => {
         for (let i = 0; i < rows.length; i++) {
             zoneValue.push(rows[i].sclassName);
         }
     }, [])
 
-    // console.log(rows);
     const changeHandler = (event, index) => {
         // console.log(event.target.value);
         var newarr = zoneValue;
@@ -32,15 +29,14 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
         setindexValue(index);
     }
 
-
     const handleSave = (e, index) => {
-        // e.preventDefault();
         dispatch(updateStudentFields(rows[index].id, { sclassName: zoneValue[index] }, "updateStudentZone"))
           .then(() => {
               // Reload the page when the save is successful
               window.location.reload();
           });
     }
+
     return (
         <>
             <TableContainer sx={{
@@ -89,11 +85,11 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
                                                             ))}
                                                         </select>
                                                     ) : (
-                                                                <span style={{ fontWeight: 'bold' }}>
-                                                                    {column.format && typeof value === 'number'
-                                                                        ? column.format(value)
-                                                                        : value}
-                                                                </span>
+                                                            <span style={{ fontWeight: 'bold' }}>
+                                                                {column.format && typeof value === 'number'
+                                                                    ? column.format(value)
+                                                                    : value}
+                                                            </span>
                                                     )}
                                                 </StyledTableCell>
                                             );
@@ -128,5 +124,4 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
         </>
     )
 }
-
 export default TableTemplate

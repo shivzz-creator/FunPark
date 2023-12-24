@@ -42,7 +42,7 @@ const StudentSubjects = () => {
     const handleSectionChange = (event, newSection) => {
         setSelectedSection(newSection);
     };
-
+    
     const [checkedActivities, setCheckedActivities] = useState([]);
     const handleToggleActivity = (activityId) => {
         if (checkedActivities.includes(activityId)) {
@@ -54,12 +54,12 @@ const StudentSubjects = () => {
 
     const handleSaveChanges = () => {
         if (checkedActivities) {
-            console.log("inside handlesave");
+            // console.log("inside handlesave");
             checkedActivities.forEach(id => {
                 dispatch(updateSubjectDetails(id, { isChecked: true }, "checkedActivities"));
             });
         }
-        console.log("Saving changes:", checkedActivities);
+        // console.log("Saving changes:", checkedActivities);
     };
 
     const renderTableSection = () => {

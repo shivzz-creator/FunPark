@@ -84,12 +84,27 @@ const studentSchema = new mongoose.Schema({
             enum: ['Present', 'Absent'],
             required: true
         },
+
         // subName: {
         //     type: mongoose.Schema.Types.ObjectId,
         //     ref: 'subject',
         //     required: true
         // }
     }],
+    MLRem: {
+        type: Number,
+        // required: true,
+        default: 2
+    },
+    RLRem: {
+        type: Number,
+        default: 2
+    },
+    ELRem: {
+        type: Number,
+        // required: true,
+        default: 2
+    },
 
 });
 

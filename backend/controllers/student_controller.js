@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
 const sclass = require('../models/sclassSchema.js');
+const Leave = require('../models/LeaveSchema.js');
+
 const { findByIdAndUpdate } = require('../models/adminSchema.js');
 const mongoose = require('mongoose');
 const studentRegister = async (req, res) => {
@@ -145,14 +147,15 @@ const updateStudent = async (req, res) => {
     }
 }
 
+
 const updateExamResult = async (req, res) => {
-    console.log(req);
+    // console.log(req);
     const { incentiveEarned } = req.body;
 
     try {
 
         const student = await Student.findById(req.params.id);
-        console.log(Number(incentiveEarned));
+        // console.log(Number(incentiveEarned));
         if (!student) {
             return res.send({ message: 'employee not found' });
         }
@@ -191,15 +194,6 @@ const studentAttendance = async (req, res) => {
         }
         else {
             student.attendance.push({ date, status });
-
-            // Check if the student has already attended the maximum number of sessions
-            // const attendedSessions = student.attendance.filter(
-            //     (a) => a.subName.toString() === subName
-            // ).length;
-
-            // if (attendedSessions >= subject.sessions) {
-            //     return res.send({ message: 'Maximum attendance limit reached' });
-            // }       
         }
 
         const result = await student.save();
@@ -283,6 +277,78 @@ const updateZone = async (req, res) => {
     }
 };
 
+const LeaveRequestList = async (req, res) => {
+    try {
+        // console.log("iii");
+        let complains = await Leave.find({ school: req.params.id }).populate("userId", "name");
+        // console.log(complains);
+        if (complains.length > 0) {
+            res.send(complains)
+        } else {
+            res.send({ message: "No Leave Requests found" });
+        }
+    } catch (err) {
+        res.status(500).json(err);
+    }
+};
+const ShowUserRequestList = async (req, res) => {
+    const userId = req.params.id;
+    // console.log(userId);
+    try {
+        // Find leave statuses for the given userId
+        const leaveStatuses = await Leave.find({ userId });
+        // console.log(leaveStatuses, "leaveStatuses");
+        res.status(200).json(leaveStatuses);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+const LeaveRequest = async (req, res) => {
+    try {
+        const leaveSchema = await Leave.findOne();
+
+        if (!leaveSchema) {
+            const newLeaveSchema = new Leave(req.body);
+            const savedLeaveSchema = await newLeaveSchema.save();
+            return res.status(200).json(savedLeaveSchema);
+        }
+        else {
+            const newLeaveObject = new Leave(req.body);
+
+            // Save the new document to the database
+            const savedLeaveObject = await newLeaveObject.save();
+
+            return res.status(201).json(savedLeaveObject);
+        }
+
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const updateReqStatus = async (req, res) => {
+    const leaveId = req.params.id;
+    try {
+        const { newStatus } = req.body;
+
+        // Validate the new status to ensure it is a valid option (e.g., 'accepted' or 'rejected')
+        const validStatusOptions = ['accepted', 'rejected'];
+        if (!validStatusOptions.includes(newStatus)) {
+            return res.status(400).json({ error: 'Invalid status option' });
+        }
+
+        const result = await Leave.findByIdAndUpdate(leaveId, { reqstatus: newStatus }, { new: true });
+
+        return res.send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+};
+
 module.exports = {
     studentRegister,
     studentLogIn,
@@ -298,5 +364,9 @@ module.exports = {
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
     removeStudentAttendance,
-    updateZone
+    updateZone,
+    LeaveRequest,
+    LeaveRequestList,
+    updateReqStatus,
+    ShowUserRequestList
 };

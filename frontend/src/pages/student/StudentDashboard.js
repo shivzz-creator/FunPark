@@ -17,10 +17,14 @@ import StudentProfile from './StudentProfile';
 import StudentSubjects from './StudentSubjects';
 import ViewStdAttendance from './ViewStdAttendance';
 import StudentComplain from './StudentComplain';
+import LeaveReq from './LeaveReq';
+
+
 import Logout from '../Logout'
 import AccountMenu from '../../components/AccountMenu';
 import { AppBar, Drawer } from '../../components/styles';
 import bg from "../../assets/logo.png";
+import ViewLeave from './viewLeave';
 
 const StudentDashboard = () => {
     const [open, setOpen] = useState(true);
@@ -84,7 +88,8 @@ const StudentDashboard = () => {
                         <Route path="/Student/subjects" element={<StudentSubjects />} />
                         <Route path="/Student/attendance" element={<ViewStdAttendance />} />
                         <Route path="/Student/complain" element={<StudentComplain />} />
-
+                        <Route path="/Student/leaveReq" element={<LeaveReq />} />
+                        <Route path="/Student/viewLeave" element={<ViewLeave />} />
                         <Route path="/logout" element={<Logout />} />
                     </Routes>
                 </Box>

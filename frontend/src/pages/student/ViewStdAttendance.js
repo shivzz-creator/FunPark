@@ -56,8 +56,8 @@ const ViewStdAttendance = () => {
         XLSX.writeFile(wb, excelFileName);
     };
 
-    if (response) { console.log(response) }
-    else if (error) { console.log(error) }
+    // if (response) { console.log(response) }
+    // else if (error) { console.log(error) }
     // Step 1: Calculate the total number of days
     let attendancePercentage;
     // let groupedAttendance=[];

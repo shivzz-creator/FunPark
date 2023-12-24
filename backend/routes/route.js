@@ -23,7 +23,11 @@ const {
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
     removeStudentAttendance,
-    updateZone
+    updateZone,
+    LeaveRequest,
+    LeaveRequestList,
+    updateReqStatus,
+    ShowUserRequestList
 } = require('../controllers/student_controller.js');
 const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects, updateSubjectFields } = require('../controllers/subject-controller.js');
 const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
@@ -62,6 +66,8 @@ router.put('/RemoveStudentSubAtten/:id', removeStudentAttendanceBySubject);
 router.put('/RemoveStudentAtten/:id', removeStudentAttendance);
 router.put('/updateStudentZone/:id',updateZone);
 
+
+
 // Teacher
 
 router.post('/TeacherReg', teacherRegister);
@@ -95,32 +101,26 @@ router.post('/ComplainCreate', complainCreate);
 
 router.get('/ComplainList/:id', complainList);
 
+
+//Leave 
+router.post('/LeaveRequestCreate', LeaveRequest);
+router.put('/updateleave/:id',updateReqStatus)
+router.get('/LeaveList/:id', LeaveRequestList);
+router.get('/ShowList/:id', ShowUserRequestList);
+
+
 // Sclass
 
-// router.get("/classes", async (req, res) => {
-//     try {
-//         const classes = await sclassModel.find().exec();
-//         res.json(classes);
-//     } catch (error) {
-//         console.error("Error fetching classes:", error);
-//         res.status(500).json({ error: "An error occurred while fetching classes" });
-//     }
-// });
-
 router.post('/SclassCreate', sclassCreate);
-
 router.get('/SclassList/:id', sclassList);
 router.get("/Sclass/:id", getSclassDetail)
-
 router.get("/Sclass/Students/:id", getSclassStudents)
-
 router.delete("/Sclasses/:id", deleteSclasses)
 router.delete("/Sclass/:id", deleteSclass)
 router.put("/checkedActivities/:id", updateSubjectFields)
 // Subject
 
 router.post('/SubjectCreate', subjectCreate);
-
 router.get('/AllSubjects/:id', allSubjects);
 router.get('/ClassSubjects/:id', classSubjects);
 router.get('/FreeSubjectList/:id', freeSubjectList);

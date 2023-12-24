@@ -33,7 +33,7 @@ export const getClassStudents = (id) => async (dispatch) => {
 
     try {
         const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/Sclass/Students/${id}`);
-        console.log(result);
+        // console.log(result);
         if (result.data.message) {
             dispatch(getFailedTwo(result.data.message));
         } else {
@@ -101,7 +101,7 @@ export const updateSubjectDetails = (id,fields,address) => async (dispatch) => {
         const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, fields, {
             headers: { 'Content-Type': 'application/json' },
         });
-        console.log("ll");
+        // console.log("ll");
         // Use Promise.all to wait for all promises to resolve
         // const results = await Promise.all(promises);
         // Dispatch the results to the Redux store

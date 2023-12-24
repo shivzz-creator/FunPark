@@ -35,6 +35,12 @@ const SideBar = () => {
                     </ListItemIcon>
                     <ListItemText primary="Activities" />
                 </ListItemButton>
+                <ListItemButton component={Link} to="/Admin/leaveReq">
+                    <ListItemIcon>
+                        <AssignmentIcon color={location.pathname.startsWith("/Admin/leaveReq") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Leave Requests" />
+                </ListItemButton>
                 {/* <ListItemButton component={Link} to="/Admin/teachers">
                     <ListItemIcon>
                         <SupervisorAccountOutlinedIcon color={location.pathname.startsWith("/Admin/teachers") ? 'primary' : 'inherit'} />

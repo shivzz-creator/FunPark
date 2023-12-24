@@ -1,35 +1,35 @@
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress, Stack, TextField, Typography } from '@mui/material';
+import { Box, CircularProgress, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import Popup from '../../components/Popup';
 import { BlueButton } from '../../components/buttonStyles';
 import { addStuff } from '../../redux/userRelated/userHandle';
 import { useDispatch, useSelector } from 'react-redux';
 import bg from '../../assets/bg3.jpeg';
 
-const StudentComplain = () => {
-    const [complaint, setComplaint] = useState("");
+const LeaveReq = () => {
+    const [leaveType, setLeaveType] = useState("");
     const [date, setDate] = useState("");
 
     const dispatch = useDispatch()
-
     const { status, currentUser, error } = useSelector(state => state.user);
 
-    const user = currentUser._id
+    const userId = currentUser._id
     const school = currentUser.school._id
-    const address = "Complain"
+    const address = "LeaveRequest"
 
     const [loader, setLoader] = useState(false)
     const [message, setMessage] = useState("");
     const [showPopup, setShowPopup] = useState(false);
 
     const fields = {
-        user,
+        userId,
         date,
-        complaint,
-        school,
+        leaveType,
+        school
     };
 
     const submitHandler = (event) => {
+        // console.log(user,"printing user");
         event.preventDefault()
         setLoader(true)
         dispatch(addStuff(fields, address))
@@ -68,7 +68,7 @@ const StudentComplain = () => {
                 >
                     <div >
                         <Stack spacing={1} sx={{ mb: 3 }}>
-                            <Typography variant="h4">Complain </Typography>
+                            <Typography variant="h4">Leave Request </Typography>
                         </Stack>
                         <form onSubmit={submitHandler}>
                             <Stack spacing={3}>
@@ -84,16 +84,17 @@ const StudentComplain = () => {
                                 />
                                 <TextField
                                     fullWidth
-                                    label="Write your complain"
+                                    label="Select Leave Type"
+                                    select
                                     variant="outlined"
-                                    value={complaint}
-                                    onChange={(event) => {
-                                        setComplaint(event.target.value);
-                                    }}
+                                    value={leaveType}
+                                    onChange={(event) => setLeaveType(event.target.value)}
                                     required
-                                    multiline
-                                    maxRows={4}
-                                />
+                                >
+                                    <MenuItem value="Medical Leave">Medical Leave</MenuItem>
+                                    <MenuItem value="Recreational Leave">Recreational Leave</MenuItem>
+                                    <MenuItem value="Emergency Leave">Emergency Leave</MenuItem>
+                                </TextField>
                             </Stack>
                             <BlueButton
                                 fullWidth
@@ -103,7 +104,7 @@ const StudentComplain = () => {
                                 type="submit"
                                 disabled={loader}
                             >
-                                {loader ? <CircularProgress size={24} color="inherit" /> : "Add"}
+                                {loader ? <CircularProgress size={24} color="inherit" /> : "Submit Request"}
                             </BlueButton>
                         </form>
                     </div>
@@ -113,5 +114,4 @@ const StudentComplain = () => {
         </div>
     );
 };
-
-export default StudentComplain;
+export default LeaveReq;

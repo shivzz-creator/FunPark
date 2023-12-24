@@ -46,13 +46,16 @@ const StudentHomePage = () => {
         }
     }, [userDetails])
 
-    const overallAttendancePercentage = calculateOverallAttendancePercentage(subjectAttendance);
-    const overallAbsentPercentage = 100 - overallAttendancePercentage;
+    let attendancePercentage;
+    // let groupedAttendance=[];
+    if (userDetails.attendance) {
+        const totalDays = userDetails.attendance.length;
+        const presentDays = userDetails.attendance.filter((entry) => entry.status === "Present").length;
 
-    const chartData = [
-        { name: 'Present', value: overallAttendancePercentage },
-        { name: 'Absent', value: overallAbsentPercentage }
-    ];
+        attendancePercentage = (presentDays / totalDays) * 100;
+
+    }
+ 
     const ContainerStyle = {
         backgroundImage: `url(${bg})`, // Change this to the desired color
     };
@@ -73,9 +76,9 @@ const StudentHomePage = () => {
                         <StyledPaper>
                             <img src={zones} alt="Subjects" style={{ width: '100px', height: '100px' }} />
                             <Title>
-                                Total Attendance
+                                Total Attendance %
                             </Title>
-                            <Data start={0} end={overallAttendancePercentage} duration={2.5} />
+                            <Data start={0} end={`${attendancePercentage}`} duration={2.5} />
                         </StyledPaper>
                     </Grid>
 
