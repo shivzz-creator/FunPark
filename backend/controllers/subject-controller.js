@@ -48,6 +48,7 @@ const allSubjects = async (req, res) => {
 
 const classSubjects = async (req, res) => {
     try {
+        // console.log(req);
         let subjects = await Subject.find({ sclassName: req.params.id })
         if (subjects.length > 0) {
             res.send(subjects)
@@ -87,6 +88,20 @@ const getSubjectDetail = async (req, res) => {
         res.status(500).json(err);
     }
 }
+const updateSubjectFields = async (req, res) => {
+    // console.log(req);
+    // console.log(req._id);
+    const id=req.params.id;
+    console.log(id);
+    try {
+        const result = await Subject.findByIdAndUpdate(id, { isChecked:true }, { new: true });
+        // console.log("iii");
+        res.send(result);
+    } catch (error) {
+        // console.log("lll");
+        res.status(500).json(error);
+    }
+};
 
 const deleteSubject = async (req, res) => {
     try {
@@ -161,4 +176,4 @@ const deleteSubjectsByClass = async (req, res) => {
 };
 
 
-module.exports = { subjectCreate, freeSubjectList, classSubjects, getSubjectDetail, deleteSubjectsByClass, deleteSubjects, deleteSubject, allSubjects };
+module.exports = { updateSubjectFields,subjectCreate, freeSubjectList, classSubjects, getSubjectDetail, deleteSubjectsByClass, deleteSubjects, deleteSubject, allSubjects };

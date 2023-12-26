@@ -39,7 +39,7 @@ const TeacherDetails = () => {
                         Teacher Name: {teacherDetails?.name}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                        Class Name: {teacherDetails?.teachSclass?.sclassName}
+                        Zone Name: {teacherDetails?.teachSclass?.sclassName}
                     </Typography>
                     {isSubjectNamePresent ? (
                         <>

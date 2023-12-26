@@ -1,7 +1,7 @@
 import { Container, Grid, Paper } from '@mui/material'
 import SeeNotice from '../../components/SeeNotice';
 import Students from "../../assets/img1.png";
-import Classes from "../../assets/img2.png";
+import zonesicon from "../../assets/zonebg.jpg";
 import Teachers from "../../assets/img3.png";
 import Fees from "../../assets/img4.png";
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { getAllSclasses } from '../../redux/sclassRelated/sclassHandle';
 import { getAllStudents } from '../../redux/studentRelated/studentHandle';
 import { getAllTeachers } from '../../redux/teacherRelated/teacherHandle';
+import bg from "../../assets/bg3.jpeg";
 
 const AdminHomePage = () => {
     const dispatch = useDispatch();
@@ -31,10 +32,12 @@ const AdminHomePage = () => {
     const numberOfStudents = studentsList && studentsList.length;
     const numberOfClasses = sclassesList && sclassesList.length;
     const numberOfTeachers = teachersList && teachersList.length;
-
+    const ContainerStyle = {
+        backgroundImage: `url(${bg})`, // Change this to the desired color
+    };
     return (
         <>
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }} style={ContainerStyle}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
@@ -47,7 +50,7 @@ const AdminHomePage = () => {
                     </Grid>
                     <Grid item xs={12} md={3} lg={3}>
                         <StyledPaper>
-                            <img src={Classes} alt="Classes" />
+                            <img src={zonesicon} alt="Classes" style={{ width: '100px', height: '100px' }} />
                             <Title>
                                 Total Zones
                             </Title>

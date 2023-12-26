@@ -161,7 +161,7 @@ const TeacherClassDetails = () => {
                     ) : (
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                             <Typography variant="h5" gutterBottom>
-                                Students List:
+                                Employees List:
                             </Typography>
 
                             {Array.isArray(sclassStudents) && sclassStudents.length > 0 &&

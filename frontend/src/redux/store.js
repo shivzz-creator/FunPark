@@ -5,9 +5,10 @@ import { noticeReducer } from './noticeRelated/noticeSlice';
 import { sclassReducer } from './sclassRelated/sclassSlice';
 import { teacherReducer } from './teacherRelated/teacherSlice';
 import { complainReducer } from './complainRelated/complainSlice';
-
+import { leaveReducer } from './leaveRelated/leaveSlice';
 const store = configureStore({
     reducer: {
+        leave: leaveReducer,
         user: userReducer,
         student: studentReducer,
         teacher: teacherReducer,

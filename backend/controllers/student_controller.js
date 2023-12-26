@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
 const sclass = require('../models/sclassSchema.js');
+const Leave = require('../models/LeaveSchema.js');
+
 const { findByIdAndUpdate } = require('../models/adminSchema.js');
 const mongoose = require('mongoose');
 const studentRegister = async (req, res) => {
@@ -51,7 +53,7 @@ const studentLogIn = async (req, res) => {
                 res.send({ message: "Invalid password" });
             }
         } else {
-            res.send({ message: "Student not found" });
+            res.send({ message: "Employee not found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -67,7 +69,7 @@ const getStudents = async (req, res) => {
             });
             res.send(modifiedStudents);
         } else {
-            res.send({ message: "No students found" });
+            res.send({ message: "No Employees found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -79,14 +81,14 @@ const getStudentDetail = async (req, res) => {
         let student = await Student.findById(req.params.id)
             .populate("school", "schoolName")
             .populate("sclassName", "sclassName")
-            // .populate("examResult.subName", "subName")
-            // .populate("attendance.subName", "subName sessions");
+        // .populate("examResult.subName", "subName")
+        // .populate("attendance.subName", "subName sessions");
         if (student) {
             student.password = undefined;
             res.send(student);
         }
         else {
-            res.send({ message: "No student found" });
+            res.send({ message: "No Employee found" });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -106,7 +108,7 @@ const deleteStudents = async (req, res) => {
     try {
         const result = await Student.deleteMany({ school: req.params.id })
         if (result.deletedCount === 0) {
-            res.send({ message: "No students found to delete" })
+            res.send({ message: "No employee found to delete" })
         } else {
             res.send(result)
         }
@@ -119,7 +121,7 @@ const deleteStudentsByClass = async (req, res) => {
     try {
         const result = await Student.deleteMany({ sclassName: req.params.id })
         if (result.deletedCount === 0) {
-            res.send({ message: "No students found to delete" })
+            res.send({ message: "No employee found to delete" })
         } else {
             res.send(result)
         }
@@ -145,26 +147,23 @@ const updateStudent = async (req, res) => {
     }
 }
 
+
 const updateExamResult = async (req, res) => {
-    const { subName, marksObtained } = req.body;
+    // console.log(req);
+    const { incentiveEarned } = req.body;
 
     try {
+
         const student = await Student.findById(req.params.id);
-
+        // console.log(Number(incentiveEarned));
         if (!student) {
-            return res.send({ message: 'Student not found' });
+            return res.send({ message: 'employee not found' });
         }
 
-        const existingResult = student.examResult.find(
-            (result) => result.subName.toString() === subName
-        );
-
-        if (existingResult) {
-            existingResult.marksObtained = marksObtained;
-        } else {
-            student.examResult.push({ subName, marksObtained });
-        }
-
+        // const existingResult = student.incentiveEarned.find(
+        //     (result) => result.subName.toString() === subName
+        // );
+        student.incentiveEarned = Number(incentiveEarned);
         const result = await student.save();
         return res.send(result);
     } catch (error) {
@@ -173,13 +172,13 @@ const updateExamResult = async (req, res) => {
 };
 
 const studentAttendance = async (req, res) => {
-    const {  status, date } = req.body;
+    const { status, date } = req.body;
 
     try {
         const student = await Student.findById(req.params.id);
 
         if (!student) {
-            return res.send({ message: 'Student not found' });
+            return res.send({ message: 'Employee not found' });
         }
 
         // const subject = await Subject.findById(subName);
@@ -187,25 +186,16 @@ const studentAttendance = async (req, res) => {
         const existingAttendance = student.attendance.find(
             (a) =>
                 a.date.toDateString() === new Date(date).toDateString() && true
-                // a.subName.toString() === subName
+            // a.subName.toString() === subName
         );
 
         if (existingAttendance) {
             existingAttendance.status = status;
-        } 
+        }
         else {
             student.attendance.push({ date, status });
-
-            // Check if the student has already attended the maximum number of sessions
-            // const attendedSessions = student.attendance.filter(
-            //     (a) => a.subName.toString() === subName
-            // ).length;
-            
-            // if (attendedSessions >= subject.sessions) {
-            //     return res.send({ message: 'Maximum attendance limit reached' });
-            // }       
         }
-        
+
         const result = await student.save();
         return res.send(result);
     } catch (error) {
@@ -277,9 +267,81 @@ const updateZone = async (req, res) => {
     const studentId = req.params.id;
     try {
         // const validSclassName = new mongoose.Types.ObjectId(req.body.sclassName);
-        const zone = await sclass.findOne({ sclassName :req.body.sclassName});
+        const zone = await sclass.findOne({ sclassName: req.body.sclassName });
         const result = await Student.findByIdAndUpdate(studentId, { sclassName: zone._id }, { new: true });
         // console.log(zone);
+        return res.send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+};
+
+const LeaveRequestList = async (req, res) => {
+    try {
+        // console.log("iii");
+        let complains = await Leave.find({ school: req.params.id }).populate("userId", "name");
+        // console.log(complains);
+        if (complains.length > 0) {
+            res.send(complains)
+        } else {
+            res.send({ message: "No Leave Requests found" });
+        }
+    } catch (err) {
+        res.status(500).json(err);
+    }
+};
+const ShowUserRequestList = async (req, res) => {
+    const userId = req.params.id;
+    // console.log(userId);
+    try {
+        // Find leave statuses for the given userId
+        const leaveStatuses = await Leave.find({ userId });
+        // console.log(leaveStatuses, "leaveStatuses");
+        res.status(200).json(leaveStatuses);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+const LeaveRequest = async (req, res) => {
+    try {
+        const leaveSchema = await Leave.findOne();
+
+        if (!leaveSchema) {
+            const newLeaveSchema = new Leave(req.body);
+            const savedLeaveSchema = await newLeaveSchema.save();
+            return res.status(200).json(savedLeaveSchema);
+        }
+        else {
+            const newLeaveObject = new Leave(req.body);
+
+            // Save the new document to the database
+            const savedLeaveObject = await newLeaveObject.save();
+
+            return res.status(201).json(savedLeaveObject);
+        }
+
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const updateReqStatus = async (req, res) => {
+    const leaveId = req.params.id;
+    try {
+        const { newStatus } = req.body;
+
+        // Validate the new status to ensure it is a valid option (e.g., 'accepted' or 'rejected')
+        const validStatusOptions = ['accepted', 'rejected'];
+        if (!validStatusOptions.includes(newStatus)) {
+            return res.status(400).json({ error: 'Invalid status option' });
+        }
+
+        const result = await Leave.findByIdAndUpdate(leaveId, { reqstatus: newStatus }, { new: true });
+
         return res.send(result);
     } catch (error) {
         console.log(error);
@@ -302,5 +364,9 @@ module.exports = {
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
     removeStudentAttendance,
-    updateZone
+    updateZone,
+    LeaveRequest,
+    LeaveRequestList,
+    updateReqStatus,
+    ShowUserRequestList
 };

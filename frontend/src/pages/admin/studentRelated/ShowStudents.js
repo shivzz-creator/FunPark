@@ -24,6 +24,8 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Popup from '../../../components/Popup';
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
+import bg from "../../../assets/bg3.jpeg";
+
 const ShowStudents = () => {
 
     const navigate = useNavigate()
@@ -80,7 +82,7 @@ const ShowStudents = () => {
     })
     // console.log(classNames);
     const StudentButtonHaver = ({ row }) => {
-        const options = ['Take Attendance', 'Provide Marks'];
+        const options = ['Take Attendance', 'Add Incentives'];
 
         const [open, setOpen] = React.useState(false);
         const anchorRef = React.useRef(null);
@@ -120,7 +122,12 @@ const ShowStudents = () => {
             setOpen(false);
         }; 
         return (
-            <>
+            <Box sx={{
+                display: 'flex',
+                // flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+            }}>
           
                 <IconButton onClick={() => deleteHandler(row.id, "Student")}>
                     <PersonRemoveIcon color="error" />
@@ -181,7 +188,7 @@ const ShowStudents = () => {
                         )}
                     </Popper>
                 </React.Fragment>
-            </>
+            </Box>
         );
     };
 
@@ -197,19 +204,32 @@ const ShowStudents = () => {
     ];
 
     return (
-        <>
+        <Box sx={{
+            backgroundImage: `url(${bg})`, // Set the background image here
+            backgroundSize: 'cover', // Optional: Adjust the background size
+            minHeight: '100vh', // Optional: Ensure the box takes at least the full height of the viewport
+        }}>
             {loading ?
                 <div>Loading...</div>
                 :
                 <>
                     {response ?
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                        <Box >
                             <GreenButton variant="contained" onClick={() => navigate("/Admin/addstudents")}>
                                 Add Students
                             </GreenButton>
                         </Box>
                         :
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            // alignItems: 'center',
+                            // textAlign: 'center',
+                            //  overflow: 'hidden',
+                            backgroundImage: `url(${bg})`, // Set the background image here
+                            backgroundSize: 'cover', // Optional: Adjust the background size
+                            minHeight: '100vh',
+}}>
 
                             {Array.isArray(studentsList) && studentsList.length > 0 &&
                                 <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} flag={true} />
@@ -220,7 +240,7 @@ const ShowStudents = () => {
                 </>
             }
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-        </>
+        </Box>
     );
 };
 

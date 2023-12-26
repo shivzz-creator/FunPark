@@ -6,23 +6,20 @@ import { useNavigate } from 'react-router-dom';
 import { updateStudentFields } from '../redux/studentRelated/studentHandle';
 
 
-
 const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
     const [zoneValue, setzoneValue] = useState([]);
     const [indexValue, setindexValue] = useState(0);
 
     const dispatch = useDispatch();
     // const [rows2, setRows] = useState(rows);
-
     useEffect(() => {
         for (let i = 0; i < rows.length; i++) {
             zoneValue.push(rows[i].sclassName);
         }
     }, [])
 
-    // console.log(rows);
     const changeHandler = (event, index) => {
         // console.log(event.target.value);
         var newarr = zoneValue;
@@ -32,18 +29,23 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
         setindexValue(index);
     }
 
-
     const handleSave = (e, index) => {
-        // e.preventDefault();
         dispatch(updateStudentFields(rows[index].id, { sclassName: zoneValue[index] }, "updateStudentZone"))
           .then(() => {
               // Reload the page when the save is successful
               window.location.reload();
           });
     }
+
     return (
         <>
-            <TableContainer>
+            <TableContainer sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+
+            }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <StyledTableRow>
@@ -61,40 +63,35 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
                             </StyledTableCell>
                         </StyledTableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, indexr) => {
                                 return (
                                     <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
                                             return (
-                                                <>
-                                                    {
-                                                        (column.id !== "editZone") ?
-                                                            (<StyledTableCell key={column.id} align={column.align}>
-                                                                {
-                                                                    column.format && typeof value === 'number'
-                                                                        ? column.format(value)
-                                                                        : value
-                                                                }
-                                                            </StyledTableCell>) :
-                                                            (<StyledTableCell key={column.id} align={column.align}>
-                                                                {
-                                                                    <select
-                                                                        onChange={event => changeHandler(event, indexr)}>
-                                                                        <option value={zoneValue[indexr]}>Select zone</option>
-                                                                        {value.map((classItem, index) => (
-                                                                            <option key={index} value={classItem} >
-                                                                                {classItem}
-                                                                            </option>
-                                                                        ))}
-                                                                    </select>
-                                                                }
-                                                            </StyledTableCell>)
-                                                    }
-                                                </>
+                                                <StyledTableCell key={column.id} align={column.align}>
+                                                    {column.id === 'isChecked' ? (
+                                                        <input type="checkbox" checked={value} readOnly />
+                                                    ) : column.id === 'editZone' ? (
+                                                        <select onChange={event => changeHandler(event, indexr)}>
+                                                            <option value={zoneValue[indexr]}>Select zone</option>
+                                                            {value.map((classItem, index) => (
+                                                                <option key={index} value={classItem}>
+                                                                    {classItem}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    ) : (
+                                                            <span style={{ fontWeight: 'bold' }}>
+                                                                {column.format && typeof value === 'number'
+                                                                    ? column.format(value)
+                                                                    : value}
+                                                            </span>
+                                                    )}
+                                                </StyledTableCell>
                                             );
                                         })}
                                         <StyledTableCell>
@@ -105,12 +102,10 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
                                             )}
                                             <ButtonHaver row={row} />
                                         </StyledTableCell>
-                                        {/* <StyledTableCell align="center">
-                                            
-                                        </StyledTableCell> */}
                                     </StyledTableRow>
                                 );
                             })}
+
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -122,12 +117,11 @@ const TableTemplate = ({ buttonHaver: ButtonHaver, columns, rows, flag }) => {
                 page={page}
                 onPageChange={(event, newPage) => setPage(newPage)}
                 onRowsPerPageChange={(event) => {
-                    setRowsPerPage(parseInt(event.target.value, 5));
+                    setRowsPerPage(parseInt(event.target.value, 100));
                     setPage(0);
                 }}
             />
         </>
     )
 }
-
 export default TableTemplate

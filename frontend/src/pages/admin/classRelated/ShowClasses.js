@@ -15,6 +15,7 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import styled from 'styled-components';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import Popup from '../../../components/Popup';
+import bg from "../../../assets/bg3.jpeg";
 
 const ShowClasses = () => {
   const navigate = useNavigate()
@@ -41,13 +42,9 @@ const ShowClasses = () => {
     console.log(address);
     setMessage("Sorry the delete function has been disabled for now.")
     setShowPopup(true)
-    // dispatch(deleteUser(deleteID, address))
-    //   .then(() => {
-    //     dispatch(getAllSclasses(adminID, "Sclass"));
-    //   })
   }
   const sclassColumns = [
-    { id: 'name', label: 'Class Name', minWidth: 170 },
+    { id: 'name', label: 'Zone Name', minWidth: 170 },
   ]
 
   const sclassRows = sclassesList && sclassesList.length > 0 && sclassesList.map((sclass) => {
@@ -59,7 +56,7 @@ const ShowClasses = () => {
 
   const SclassButtonHaver = ({ row }) => {
     const actions = [
-      { icon: <PostAddIcon />, name: 'Add Zones', action: () => navigate("/Admin/addsubject/" + row.id) },
+      { icon: <PostAddIcon />, name: 'Add Activities', action: () => navigate("/Admin/addsubject/" + row.id) },
       { icon: <PersonAddAlt1Icon />, name: 'Add Student', action: () => navigate("/Admin/class/addstudents/" + row.id) },
     ];
     return (
@@ -88,9 +85,9 @@ const ShowClasses = () => {
       setAnchorEl(null);
     };
     return (
-      <>
+      <div >
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Tooltip title="Add Employees & Zones">
+          <Tooltip title="Add Employees & Activities">
             <IconButton
               onClick={handleClick}
               size="small"
@@ -126,7 +123,7 @@ const ShowClasses = () => {
             </MenuItem>
           ))}
         </Menu>
-      </>
+      </div>
     );
   }
 
@@ -142,7 +139,15 @@ const ShowClasses = () => {
   ];
 
   return (
-    <>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      backgroundImage: `url(${bg})`, // Set the background image here
+      backgroundSize: 'cover', // Optional: Adjust the background size
+      minHeight: '100vh', // Optional: Ensure the box takes at least the full height of the viewport
+    }}>
       {loading ?
         <div>Loading...</div>
         :
@@ -164,7 +169,7 @@ const ShowClasses = () => {
       }
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
 
-    </>
+    </Box>
   );
 };
 
@@ -189,6 +194,7 @@ const styles = {
       right: 14,
       width: 10,
       height: 10,
+      
       bgcolor: 'background.paper',
       transform: 'translateY(-50%) rotate(45deg)',
       zIndex: 0,

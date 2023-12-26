@@ -4,14 +4,13 @@ import {
     getSuccess,
     getFailed,
     getError,
-    stuffDone
-} from './studentSlice';
+} from './leaveSlice';
 
-export const getAllStudents = (id) => async (dispatch) => {
+export const getAllLeaveRequests = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/Students/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}List/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -21,35 +20,29 @@ export const getAllStudents = (id) => async (dispatch) => {
         dispatch(getError(error));
     }
 }
-
-export const updateStudentFields = (id, fields, address) => async (dispatch) => {
+export const updateLeaveStatus = (id, fields, address) => async (dispatch) => {
     dispatch(getRequest());
     try {
-        const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, fields, {
-            headers: { 'Content-Type': 'application/json' },
-        });
+        const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, fields);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
-            dispatch(stuffDone());
+            dispatch(getSuccess(result.data));
         }
     } catch (error) {
         dispatch(getError(error));
     }
 }
-
-export const removeStuff = (id, address) => async (dispatch) => {
+export const showLeaveStatus=(id,address)=>async(dispatch)=>{
     dispatch(getRequest());
-
     try {
-        const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}List/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
-            dispatch(stuffDone());
+            dispatch(getSuccess(result.data));
         }
     } catch (error) {
         dispatch(getError(error));
     }
 }
-

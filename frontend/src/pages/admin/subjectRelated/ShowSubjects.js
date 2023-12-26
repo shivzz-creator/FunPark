@@ -12,13 +12,14 @@ import TableTemplate from '../../../components/TableTemplate';
 import { BlueButton, GreenButton } from '../../../components/buttonStyles';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
 import Popup from '../../../components/Popup';
+import bg from "../../../assets/bg3.jpeg";
 
 const ShowSubjects = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const { subjectsList, loading, error, response } = useSelector((state) => state.sclass);
+    const { isChecked, subjectsList, loading, error, response } = useSelector((state) => state.sclass);
     const { currentUser } = useSelector(state => state.user)
-
+    // console.log(subjectsList);
     useEffect(() => {
         dispatch(getSubjectList(currentUser._id, "AllSubjects"));
     }, [currentUser._id, dispatch]);
@@ -26,7 +27,6 @@ const ShowSubjects = () => {
     if (error) {
         console.log(error);
     }
-
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -35,24 +35,23 @@ const ShowSubjects = () => {
         console.log(address);
         setMessage("Sorry the delete function has been disabled for now.")
         setShowPopup(true)
-
         // dispatch(deleteUser(deleteID, address))
         //     .then(() => {
         //         dispatch(getSubjectList(currentUser._id, "AllSubjects"));
         //     })
     }
-
     const subjectColumns = [
-        { id: 'subName', label: 'Sub Name', minWidth: 170 },
-        { id: 'sessions', label: 'Sessions', minWidth: 170 },
-        { id: 'sclassName', label: 'Class', minWidth: 170 },
+        { id: 'subName', label: 'Activity Name', minWidth: 170 },
+        // { id: 'sessions', label: 'Sessions', minWidth: 170 },
+        { id: 'sclassName', label: 'Zone', minWidth: 170 },
+        { id: 'isChecked', label: 'Checked', minWidth: 170 },
     ]
-
     const subjectRows = subjectsList.map((subject) => {
         return {
             subName: subject.subName,
             sessions: subject.sessions,
             sclassName: subject.sclassName.sclassName,
+            isChecked:subject.isChecked,
             sclassID: subject.sclassName._id,
             id: subject._id,
         };
@@ -84,11 +83,19 @@ const ShowSubjects = () => {
     ];
 
     return (
-        <>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            // alignItems: 'center',
+            // textAlign: 'center',
+            backgroundImage: `url(${bg})`, // Set the background image here
+            backgroundSize: 'cover', // Optional: Adjust the background size
+            minHeight: '100vh', // Optional: Ensure the box takes at least the full height of the viewport
+        }}>
             {loading ?
                 <div>Loading...</div>
                 :
-                <>
+                <Box >
                     {response ?
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
                             <GreenButton variant="contained"
@@ -97,18 +104,17 @@ const ShowSubjects = () => {
                             </GreenButton>
                         </Box>
                         :
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Box>
                             {Array.isArray(subjectsList) && subjectsList.length > 0 &&
                                 <TableTemplate buttonHaver={SubjectsButtonHaver} columns={subjectColumns} rows={subjectRows} />
                             }
                             <SpeedDialTemplate actions={actions} />
-                        </Paper>
+                        </Box>
                     }
-                </>
+                </Box>
             }
             <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
-
-        </>
+        </Box>
     );
 };
 

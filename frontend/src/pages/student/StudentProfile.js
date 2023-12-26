@@ -13,6 +13,15 @@ import QRCode from 'qrcode.react';
 
 const EmployeeProfile = () => {
   const { userDetails, currentUser, response, error } = useSelector((state) => state.user);
+  let attendancePercentage;
+  // let groupedAttendance=[];
+  if (userDetails.attendance) {
+    const totalDays = userDetails.attendance.length;
+    const presentDays = userDetails.attendance.filter((entry) => entry.status === "Present").length;
+
+    attendancePercentage = (presentDays / totalDays) * 100;
+
+  }
 
   if (response) {
     console.log(response);
@@ -99,9 +108,9 @@ const EmployeeProfile = () => {
       <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
         <CardContent>
           <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold' }}>
-            Attendance and Leave Details 📊
+            Attendance  Details 📊
           </Typography>
-          {"50%"}
+          {attendancePercentage}{"%"}
         </CardContent>
       </Card>
       <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
@@ -109,7 +118,7 @@ const EmployeeProfile = () => {
           <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold' }}>
             Incentives earned so far
           </Typography>
-          { 0}
+          {userDetails.incentiveEarned}{" Rs"}
         </CardContent>
       </Card>
       <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>

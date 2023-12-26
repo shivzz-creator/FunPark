@@ -89,7 +89,7 @@ const SubjectForm = () => {
     return (
         <form onSubmit={submitHandler}>
             <Box mb={2}>
-                <Typography variant="h6" >Add Subjects</Typography>
+                <Typography variant="h6" >Add Activities</Typography>
             </Box>
             <Grid container spacing={2}>
                 {subjects.map((subject, index) => (
@@ -97,7 +97,7 @@ const SubjectForm = () => {
                         <Grid item xs={6}>
                             <TextField
                                 fullWidth
-                                label="Subject Name"
+                                label="Activity  Name"
                                 variant="outlined"
                                 value={subject.subName}
                                 onChange={handleSubjectNameChange(index)}
@@ -108,7 +108,7 @@ const SubjectForm = () => {
                         <Grid item xs={4}>
                             <TextField
                                 fullWidth
-                                label="Subject Code"
+                                label="Activity Code"
                                 variant="outlined"
                                 value={subject.subCode}
                                 onChange={handleSubjectCodeChange(index)}
@@ -116,7 +116,7 @@ const SubjectForm = () => {
                                 required
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        {/* <Grid item xs={4}>
                             <TextField
                                 fullWidth
                                 label="Sessions"
@@ -128,7 +128,7 @@ const SubjectForm = () => {
                                 sx={styles.inputField}
                                 required
                             />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={6}>
                             <Box display="flex" alignItems="flex-end">
                                 {index === 0 ? (
@@ -137,7 +137,7 @@ const SubjectForm = () => {
                                         color="primary"
                                         onClick={handleAddSubject}
                                     >
-                                        Add Subject
+                                        Add Activity
                                     </Button>
                                 ) : (
                                     <Button

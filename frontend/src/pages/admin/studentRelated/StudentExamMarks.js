@@ -24,12 +24,12 @@ const StudentExamMarks = ({ situation }) => {
     const [studentID, setStudentID] = useState("");
     const [subjectName, setSubjectName] = useState("");
     const [chosenSubName, setChosenSubName] = useState("");
-    const [marksObtained, setMarksObtained] = useState("");
+    const [incentiveEarned, setMarksObtained] = useState("");
 
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
     const [loader, setLoader] = useState(false)
-
+    // console.log(currentUser);
     useEffect(() => {
         if (situation === "Student") {
             setStudentID(params.id);
@@ -58,7 +58,7 @@ const StudentExamMarks = ({ situation }) => {
         setChosenSubName(selectedSubject._id);
     }
 
-    const fields = { subName: chosenSubName, marksObtained }
+    const fields = {incentiveEarned}
 
     const submitHandler = (event) => {
         event.preventDefault()
@@ -111,46 +111,46 @@ const StudentExamMarks = ({ situation }) => {
                         >
                             <Stack spacing={1} sx={{ mb: 3 }}>
                                 <Typography variant="h4">
-                                    Student Name: {userDetails.name}
+                                    Employee Name: {userDetails.name}
                                 </Typography>
-                                {currentUser.teachSubject &&
+                                {/* {currentUser.teachSubject &&
                                     <Typography variant="h4">
                                         Subject Name: {currentUser.teachSubject?.subName}
                                     </Typography>
-                                }
+                                } */}
                             </Stack>
                             <form onSubmit={submitHandler}>
                                 <Stack spacing={3}>
                                     {
-                                        situation === "Student" &&
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">
-                                                Select Subject
-                                            </InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={subjectName}
-                                                label="Choose an option"
-                                                onChange={changeHandler} required
-                                            >
-                                                {subjectsList ?
-                                                    subjectsList.map((subject, index) => (
-                                                        <MenuItem key={index} value={subject.subName}>
-                                                            {subject.subName}
-                                                        </MenuItem>
-                                                    ))
-                                                    :
-                                                    <MenuItem value="Select Subject">
-                                                        Add Subjects For Marks
-                                                    </MenuItem>
-                                                }
-                                            </Select>
-                                        </FormControl>
+                                        // situation === "Student" &&
+                                        // <FormControl fullWidth>
+                                        //     <InputLabel id="demo-simple-select-label">
+                                        //         Select Subject
+                                        //     </InputLabel>
+                                        //     <Select
+                                        //         labelId="demo-simple-select-label"
+                                        //         id="demo-simple-select"
+                                        //         value={subjectName}
+                                        //         label="Choose an option"
+                                        //         onChange={changeHandler} required
+                                        //     >
+                                        //         {subjectsList ?
+                                        //             subjectsList.map((subject, index) => (
+                                        //                 <MenuItem key={index} value={subject.subName}>
+                                        //                     {subject.subName}
+                                        //                 </MenuItem>
+                                        //             ))
+                                        //             :
+                                        //             <MenuItem value="Select Subject">
+                                        //                 Add Subjects For Marks
+                                        //             </MenuItem>
+                                        //         }
+                                        //     </Select>
+                                        // </FormControl>
                                     }
                                     <FormControl>
-                                        <TextField type="number" label='Enter marks'
-                                            value={marksObtained} required
+                                        <TextField type="number" label='Enter Incentives Earned'
+                                            value={incentiveEarned} required
                                             onChange={(e) => setMarksObtained(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
