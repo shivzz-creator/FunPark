@@ -21,10 +21,10 @@ const inventoryItemSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    // dateAdded: {
-    //     type: Date,
-    //     default: Date.now
-    // },
+    dateAdded: {
+        type: Date,
+        default: Date.now
+    },
     school: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'admin',
