@@ -25,6 +25,7 @@ import AccountMenu from '../../components/AccountMenu';
 import { AppBar, Drawer } from '../../components/styles';
 import bg from "../../assets/logo.png";
 import ViewLeave from './viewLeave';
+// import InventoryRequest from './InventoryRequest';
 
 const StudentDashboard = () => {
     const [open, setOpen] = useState(true);
@@ -90,6 +91,8 @@ const StudentDashboard = () => {
                         <Route path="/Student/complain" element={<StudentComplain />} />
                         <Route path="/Student/leaveReq" element={<LeaveReq />} />
                         <Route path="/Student/viewLeave" element={<ViewLeave />} />
+                        {/* <Route path="/Student/InventoryRequest" element={<InventoryRequest />} /> */}
+
                         <Route path="/logout" element={<Logout />} />
                     </Routes>
                 </Box>

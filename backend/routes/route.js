@@ -27,7 +27,8 @@ const {
     LeaveRequest,
     LeaveRequestList,
     updateReqStatus,
-    ShowUserRequestList
+    ShowUserRequestList,
+    addInventoryItem
 } = require('../controllers/student_controller.js');
 const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects, updateSubjectFields } = require('../controllers/subject-controller.js');
 const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
@@ -108,6 +109,9 @@ router.put('/updateleave/:id',updateReqStatus)
 router.get('/LeaveList/:id', LeaveRequestList);
 router.get('/ShowList/:id', ShowUserRequestList);
 
+
+//Inventory
+router.post('/InventoryCreate', addInventoryItem);
 
 // Sclass
 

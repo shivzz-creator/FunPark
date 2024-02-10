@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Card, CardContent, Typography, Grid, Box, Avatar, Container, Paper } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import QRCode from 'qrcode.react';
 // import { useParams, useNavigate } from 'react-router-dom';
 
@@ -9,11 +9,13 @@ import StarRating from './StarRating';
 import './starRating.css';
 import './EmployeeProfile.css';
 import QRCode from 'qrcode.react';
+import { getUserDetails } from '../../redux/userRelated/userHandle';
 
 
 const EmployeeProfile = () => {
-  const { userDetails, currentUser, response, error } = useSelector((state) => state.user);
+  const { userDetails, currentUser, error } = useSelector((state) => state.user);
   let attendancePercentage;
+  console.log(userDetails);
   // let groupedAttendance=[];
   if (userDetails.attendance) {
     const totalDays = userDetails.attendance.length;
@@ -22,12 +24,15 @@ const EmployeeProfile = () => {
     attendancePercentage = (presentDays / totalDays) * 100;
 
   }
-
-  if (response) {
-    console.log(response);
-  } else if (error) {
-    console.log(error);
-  }
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserDetails(currentUser._id, "Student"));
+  }, [dispatch, currentUser._id])
+  // if (response) {
+  //   console.log(response);
+  // } else if (error) {
+  //   console.log(error);
+  // }
   // const totalDays = userDetails.attendance.length;
 
   // // Step 2: Count the number of "Present" days
@@ -44,7 +49,7 @@ const EmployeeProfile = () => {
     address: currentUser.address,
     dateOfJoining: currentUser.dateOfJoining,
     insurancePolicyNumber: currentUser.insurancePolicyNumber,
-    redirectLink:"www.google.com"
+    redirectLink: "www.google.com"
   };
   const qrCodeString = JSON.stringify(qrCodeData);
 
@@ -98,7 +103,7 @@ const EmployeeProfile = () => {
 
       <Card style={{ margin: '20px 0', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', fontWeight: 'bold' }}>
         <CardContent>
-          <Typography variant="h6" gutterBottom style={ {fontWeight: 'bold'} }>
+          <Typography variant="h6" gutterBottom style={{ fontWeight: 'bold' }}>
             Ratings in Stars ⭐
           </Typography>
           <StarRating rating={currentUser.starRating} />

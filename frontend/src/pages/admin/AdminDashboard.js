@@ -32,6 +32,7 @@ import ShowNotices from './noticeRelated/ShowNotices';
 import ShowSubjects from './subjectRelated/ShowSubjects';
 import SubjectForm from './subjectRelated/SubjectForm';
 import ViewSubject from './subjectRelated/ViewSubject';
+import InventoryRequest from './studentRelated/InventoryRequest'
 
 import AddTeacher from './teacherRelated/AddTeacher';
 import ChooseClass from './teacherRelated/ChooseClass';
@@ -106,6 +107,7 @@ const AdminDashboard = () => {
                         <Route path="/Admin/dashboard" element={<AdminHomePage />} />
                         <Route path="/Admin/profile" element={<AdminProfile />} />
                         <Route path="/Admin/complains" element={<SeeComplains />} />
+                        <Route path="/Admin/inventory" element={<InventoryRequest />}/>
 
                         {/* Notice */}
                         <Route path="/Admin/addnotice" element={<AddNotice />} />

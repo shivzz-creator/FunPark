@@ -112,7 +112,7 @@ const ChooseUser = ({ visitor }) => {
               </div>
             </StyledPaper>
           </Grid>
-          {/* <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <StyledPaper elevation={3}>
               <div onClick={() => navigateHandler("Teacher")}>
                 <Box mb={2}>
@@ -124,7 +124,7 @@ const ChooseUser = ({ visitor }) => {
                 Login as a teacher to create courses, assignments, and track student progress.
               </div>
             </StyledPaper>
-          </Grid> */}
+          </Grid>
         </Grid>
       </Container>
       <Backdrop

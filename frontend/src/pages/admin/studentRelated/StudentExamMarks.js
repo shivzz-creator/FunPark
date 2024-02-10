@@ -58,7 +58,7 @@ const StudentExamMarks = ({ situation }) => {
         setChosenSubName(selectedSubject._id);
     }
 
-    const fields = {incentiveEarned}
+    const fields = { incentiveEarned }
 
     const submitHandler = (event) => {
         event.preventDefault()

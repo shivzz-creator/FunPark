@@ -3,6 +3,8 @@ const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
 const sclass = require('../models/sclassSchema.js');
 const Leave = require('../models/LeaveSchema.js');
+const InventoryItem = require('../models/inventorySchema.js');
+
 
 const { findByIdAndUpdate } = require('../models/adminSchema.js');
 const mongoose = require('mongoose');
@@ -181,23 +183,34 @@ const studentAttendance = async (req, res) => {
             return res.send({ message: 'Employee not found' });
         }
 
-        // const subject = await Subject.findById(subName);
+        // Split the incoming date string
+        const [year, month, day, hour, minute] = date.split(/[-T:]/);
 
-        const existingAttendance = student.attendance.find(
-            (a) =>
-                a.date.toDateString() === new Date(date).toDateString() && true
-            // a.subName.toString() === subName
+        // Construct a Date object using Date.UTC
+        const incomingDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
+        // Check for existing attendance
+        const existingAttendance = student.attendance.find((a) =>
+            a.date.toISOString() === incomingDate.toISOString()
         );
 
-        if (existingAttendance) {
+        if (existingAttendance) {// Update existing attendance status
             existingAttendance.status = status;
-        }
-        else {
-            student.attendance.push({ date, status });
+        } else {
+            // Add new attendance record with the date as a Date object
+            student.attendance.push({ date: incomingDate, status });
         }
 
+        // Save the student document
         const result = await student.save();
-        return res.send(result);
+
+        // Convert dates to Indian Standard Time (IST) before sending the response
+        const attendanceInIST = result.attendance.map((a) => ({
+            date: a.date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }),
+            status: a.status,
+        }));
+
+        return res.send({ attendance: attendanceInIST });
     } catch (error) {
         res.status(500).json(error);
     }
@@ -329,6 +342,19 @@ const LeaveRequest = async (req, res) => {
     }
 };
 
+//Inventory
+const addInventoryItem = async (req, res) => {
+    try {
+        const inventory = new InventoryItem(req.body);
+        const result = await inventory.save();
+        res.send(result);
+    } catch (err) {
+        console.error("Error saving inventory item:", err);
+        res.status(500).json({ error: "Error saving inventory item" });
+    }
+};
+
+
 const updateReqStatus = async (req, res) => {
     const leaveId = req.params.id;
     try {
@@ -368,5 +394,6 @@ module.exports = {
     LeaveRequest,
     LeaveRequestList,
     updateReqStatus,
-    ShowUserRequestList
+    ShowUserRequestList,
+    addInventoryItem
 };

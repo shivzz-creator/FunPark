@@ -1,6 +1,7 @@
 const Notice = require('../models/noticeSchema.js');
 
 const noticeCreate = async (req, res) => {
+    console.log("noticereq",req.body);
     try {
         const notice = new Notice({
             ...req.body,

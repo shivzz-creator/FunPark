@@ -29,10 +29,12 @@ const ViewStdAttendance = () => {
 
     }, [userDetails])
 
+
     useEffect(() => {
         dispatch(getUserDetails(currentUser._id, "Student"));
-        console.log(currentUser.name);
-    }, [dispatch, currentUser._id]);
+    }, [dispatch, currentUser._id])
+
+
     const handleExportToExcel = () => {
 
         if (groupedAttendance.length === 0) {
