@@ -22,7 +22,8 @@ const adminSchema = new mongoose.Schema({
         type: String,
         unique: true,
         required: true
-    }
+    }  ,
+
 });
 
 module.exports = mongoose.model("admin", adminSchema)

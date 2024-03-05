@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/userRelated/userHandle';
 import Popup from '../components/Popup';
-
+import funingo from "../assets/funingo-1.png"
 const ChooseUser = ({ visitor }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -88,7 +88,7 @@ const ChooseUser = ({ visitor }) => {
         <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12} sm={6} md={4}>
             <div onClick={() => navigateHandler("Admin")}>
-              <StyledPaper elevation={3}>
+              <StyledPaper elevation={3} >
                 <Box mb={2}>
                   <AccountCircle fontSize="large" />
                 </Box>
@@ -112,7 +112,7 @@ const ChooseUser = ({ visitor }) => {
               </div>
             </StyledPaper>
           </Grid>
-          {/* <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4}>
             <StyledPaper elevation={3}>
               <div onClick={() => navigateHandler("Teacher")}>
                 <Box mb={2}>
@@ -124,7 +124,7 @@ const ChooseUser = ({ visitor }) => {
                 Login as a teacher to create courses, assignments, and track student progress.
               </div>
             </StyledPaper>
-          </Grid> */}
+          </Grid>
         </Grid>
       </Container>
       <Backdrop
@@ -142,8 +142,11 @@ const ChooseUser = ({ visitor }) => {
 export default ChooseUser;
 
 const StyledContainer = styled.div`
-  background: linear-gradient(to bottom, #411d70, #19118b);
-  height: 120vh;
+  background-image: url(${funingo});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Use 100vh to cover the entire viewport height */
   display: flex;
   justify-content: center;
   padding: 2rem;
@@ -152,15 +155,19 @@ const StyledContainer = styled.div`
 const StyledPaper = styled(Paper)`
   padding: 20px;
   text-align: center;
-  background-color: #1f1f38;
-  color:rgba(255, 255, 255, 0.6);
-  cursor:pointer;
-
+  background-color: #8bc34a; /* Light Green background color */
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+    borderRadius: '10px';
+  boxShadow: '0 0 10px #0252A3'; 
+border: '2px solid #0252A3'; 
+textShadow: '1px 1px 2px #333'; 
   &:hover {
-    background-color: #2c2c6c;
-    color:white;
+    background-color:#8bc34a; /* Darker blue for hover */
+    color: white;
   }
 `;
+
 
 const StyledTypography = styled.h2`
   margin-bottom: 10px;

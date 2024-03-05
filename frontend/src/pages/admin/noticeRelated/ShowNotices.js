@@ -11,6 +11,7 @@ import { deleteUser } from '../../../redux/userRelated/userHandle';
 import TableTemplate from '../../../components/TableTemplate';
 import { GreenButton } from '../../../components/buttonStyles';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+import bg from "../../../assets/bg3.jpeg";
 
 const ShowNotices = () => {
 
@@ -22,10 +23,6 @@ const ShowNotices = () => {
     useEffect(() => {
         dispatch(getAllNotices(currentUser._id, "Notice"));
     }, [currentUser._id, dispatch]);
-
-    if (error) {
-        console.log(error);
-    }
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
@@ -73,29 +70,38 @@ const ShowNotices = () => {
     ];
 
     return (
-        <>
+        <Box sx={{
+            // display: 'flex',
+            // flexDirection: 'column',
+            // alignItems: 'center',
+            // textAlign: 'center',
+            overflow:"hidden",
+            backgroundImage: `url(${bg})`, // Set the background image here
+            backgroundSize: 'cover', // Optional: Adjust the background size
+            minHeight: '100vh', // Optional: Ensure the box takes at least the full height of the viewport
+        }}>
             {loading ?
                 <div>Loading...</div>
                 :
-                <>
+                <Box>
                     {response ?
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                        <Box>
                             <GreenButton variant="contained"
                                 onClick={() => navigate("/Admin/addnotice")}>
                                 Add Notice
                             </GreenButton>
                         </Box>
                         :
-                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                        <Paper sx={{ width: '100%' }}>
                             {Array.isArray(noticesList) && noticesList.length > 0 &&
                                 <TableTemplate buttonHaver={NoticeButtonHaver} columns={noticeColumns} rows={noticeRows} />
                             }
                             <SpeedDialTemplate actions={actions} />
                         </Paper>
                     }
-                </>
+                </Box>
             }
-        </>
+        </Box>
     );
 };
 

@@ -38,6 +38,24 @@ const StudentSideBar = () => {
                     </ListItemIcon>
                     <ListItemText primary="Complain" />
                 </ListItemButton>
+                <ListItemButton component={Link} to="/Student/LeaveReq">
+                    <ListItemIcon>
+                        <AnnouncementOutlinedIcon color={location.pathname.startsWith("/Student/LeaveReq") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Apply For Leave" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/Student/viewLeave">
+                    <ListItemIcon>
+                        <ClassOutlinedIcon color={location.pathname.startsWith("/Student/viewLeave") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="View Leave Status" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/Student/InventoryRequest">
+                    <ListItemIcon>
+                        <AnnouncementOutlinedIcon color={location.pathname.startsWith("/Student/InventoryRequest") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Inventory Request" />
+                </ListItemButton>
             </React.Fragment>
             <Divider sx={{ my: 1 }} />
             <React.Fragment>

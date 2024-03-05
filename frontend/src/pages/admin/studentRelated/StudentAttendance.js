@@ -67,7 +67,39 @@ const StudentAttendance = ({ situation }) => {
     const submitHandler = (event) => {
         event.preventDefault()
         setLoader(true)
-        dispatch(updateStudentFields(studentID, fields, "StudentAttendance"))
+        dispatch(updateStudentFields(studentID, fields, "StudentAttendance"));
+        let { incentiveEarned } = userDetails;
+        console.log(userDetails);
+
+        if (status === 'Present') {
+
+            // Calculate the time difference in minutes
+            const selectedDate = new Date(date);
+            const tenAM = new Date(selectedDate);
+            tenAM.setHours(10, 0, 0, 0);
+
+            const timeDifferenceInMinutes = (selectedDate - tenAM) / (1000 * 60);
+
+            // If the attendance is more than 30 minutes after 10 AM, deduct incentiveEarned
+            if (timeDifferenceInMinutes > 30) {
+                incentiveEarned = incentiveEarned - 100;
+                console.log(incentiveEarned);
+                // Dispatch an action to update the incentiveEarned field in the database
+            }
+            else if (timeDifferenceInMinutes > 30 && timeDifferenceInMinutes <= 300) {
+                // If attendance is more than 30 mins but within 5 hours, deduct 500 rs
+                incentiveEarned = incentiveEarned - 500;
+            } else if (timeDifferenceInMinutes > 300 && timeDifferenceInMinutes <= 480) {
+                // If attendance is between 5 hours and 8 hours, deduct 750 rs
+                incentiveEarned = incentiveEarned - 750;
+            } else if (timeDifferenceInMinutes > 480) {
+                // If attendance is more than 8 hours, mark as absent
+                // You may want to handle this case differently, like setting 'Absent' in the status field
+                setStatus('Absent');
+            }
+            dispatch(updateStudentFields(studentID, { incentiveEarned: incentiveEarned }, "UpdateExamResult"));
+
+        }
     }
 
     useEffect(() => {
@@ -115,13 +147,13 @@ const StudentAttendance = ({ situation }) => {
                         >
                             <Stack spacing={1} sx={{ mb: 3 }}>
                                 <Typography variant="h4">
-                                    Student Name: {userDetails.name}
+                                    Employee Name: {userDetails.name}
                                 </Typography>
-                                {currentUser.teachSubject &&
+                                {/* {currentUser.teachSubject &&
                                     <Typography variant="h4">
                                         Subject Name: {currentUser.teachSubject?.subName}
                                     </Typography>
-                                }
+                                } */}
                             </Stack>
                             <form onSubmit={submitHandler}>
                                 <Stack spacing={3}>
@@ -165,11 +197,12 @@ const StudentAttendance = ({ situation }) => {
                                         </Select>
                                     </FormControl>
                                     <FormControl>
+                                        
                                         <TextField
-                                            label="Select Date"
-                                            type="date"
+                                            label="Select Date and Time"
+                                            type="datetime-local"
                                             value={date}
-                                            onChange={(event) => setDate(event.target.value)} required
+                                            onChange={(event) => setDate(event.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}

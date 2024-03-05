@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+// Inside TableViewTemplate.js
+import React from 'react';
 import { StyledTableCell, StyledTableRow } from './styles';
 import { Table, TableBody, TableContainer, TableHead, TablePagination } from '@mui/material';
 
 const TableViewTemplate = ({ columns, rows }) => {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
     return (
         <>
-            <TableContainer>
+            <TableContainer >
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <StyledTableRow>
@@ -15,7 +17,7 @@ const TableViewTemplate = ({ columns, rows }) => {
                                 <StyledTableCell
                                     key={index}
                                     align={column.align}
-                                    style={{ minWidth: column.minWidth }}
+                                    style={{ minWidth: column.minWidth, fontWeight: column.id === 'title' ? 'bold' : 'normal' }}
                                 >
                                     {column.label}
                                 </StyledTableCell>
@@ -25,24 +27,24 @@ const TableViewTemplate = ({ columns, rows }) => {
                     <TableBody>
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => {
-                                return (
-                                    <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                                        {columns.map((column, index) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <StyledTableCell key={index} align={column.align}>
-                                                    {
-                                                        column.format && typeof value === 'number'
-                                                            ? column.format(value)
-                                                            : value
-                                                    }
-                                                </StyledTableCell>
-                                            );
-                                        })}
-                                    </StyledTableRow>
-                                );
-                            })}
+                            .map((row) => (
+                                <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                    {columns.map((column, index) => {
+                                        const value = row[column.id];
+                                        return (
+                                            <StyledTableCell
+                                                key={index}
+                                                align={column.align}
+                                                style={{
+                                                    fontWeight: column.id === 'title' ? 'bold' : 'normal',
+                                                }}
+                                            >
+                                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                                            </StyledTableCell>
+                                        );
+                                    })}
+                                </StyledTableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -59,7 +61,7 @@ const TableViewTemplate = ({ columns, rows }) => {
                 }}
             />
         </>
-    )
-}
+    );
+};
 
-export default TableViewTemplate
+export default TableViewTemplate;

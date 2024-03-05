@@ -23,6 +23,8 @@ import ShowStudents from './studentRelated/ShowStudents';
 import StudentAttendance from './studentRelated/StudentAttendance';
 import StudentExamMarks from './studentRelated/StudentExamMarks';
 import ViewStudent from './studentRelated/ViewStudent';
+import ShowRequests from './studentRelated/ShowRequests';
+
 
 import AddNotice from './noticeRelated/AddNotice';
 import ShowNotices from './noticeRelated/ShowNotices';
@@ -30,6 +32,7 @@ import ShowNotices from './noticeRelated/ShowNotices';
 import ShowSubjects from './subjectRelated/ShowSubjects';
 import SubjectForm from './subjectRelated/SubjectForm';
 import ViewSubject from './subjectRelated/ViewSubject';
+import InventoryRequest from './studentRelated/InventoryRequest'
 
 import AddTeacher from './teacherRelated/AddTeacher';
 import ChooseClass from './teacherRelated/ChooseClass';
@@ -41,11 +44,15 @@ import AddClass from './classRelated/AddClass';
 import ClassDetails from './classRelated/ClassDetails';
 import ShowClasses from './classRelated/ShowClasses';
 import AccountMenu from '../../components/AccountMenu';
+import bg from "../../assets/logo.png";
 
 const AdminDashboard = () => {
     const [open, setOpen] = useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
+    };
+    const tableViewTemplateStyle = {
+        backgroundColor: 'black', // Change this to the desired color
     };
 
     return (
@@ -53,7 +60,7 @@ const AdminDashboard = () => {
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar open={open} position='absolute'>
-                    <Toolbar sx={{ pr: '24px' }}>
+                    <Toolbar sx={{ pr: '24px' }} style={tableViewTemplateStyle}>
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -66,14 +73,17 @@ const AdminDashboard = () => {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <img src={bg} style={{ width: '100px', height: '50px' }} />
                         <Typography
                             component="h1"
-                            variant="h6"
+                            variant="h4"
                             color="inherit"
                             noWrap
+                            padding="10px"
                             sx={{ flexGrow: 1 }}
                         >
-                            Admin Dashboard
+                           
+                            Admin Funingo HRConnect
                         </Typography>
                         <AccountMenu />
                     </Toolbar>
@@ -97,6 +107,7 @@ const AdminDashboard = () => {
                         <Route path="/Admin/dashboard" element={<AdminHomePage />} />
                         <Route path="/Admin/profile" element={<AdminProfile />} />
                         <Route path="/Admin/complains" element={<SeeComplains />} />
+                        <Route path="/Admin/inventory" element={<InventoryRequest />}/>
 
                         {/* Notice */}
                         <Route path="/Admin/addnotice" element={<AddNotice />} />
@@ -133,7 +144,7 @@ const AdminDashboard = () => {
                         <Route path="/Admin/teachers/choosesubject/:id" element={<ChooseSubject situation="Norm" />} />
                         <Route path="/Admin/teachers/choosesubject/:classID/:teacherID" element={<ChooseSubject situation="Teacher" />} />
                         <Route path="/Admin/teachers/addteacher/:id" element={<AddTeacher />} /> */}
-
+                        <Route path="/Admin/leaveReq" element={<ShowRequests />} />
                         <Route path="/logout" element={<Logout />} />
                     </Routes>
                 </Box>

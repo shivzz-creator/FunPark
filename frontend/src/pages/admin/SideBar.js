@@ -29,12 +29,18 @@ const SideBar = () => {
                     </ListItemIcon>
                     <ListItemText primary="Zones" />
                 </ListItemButton>
-                {/* <ListItemButton component={Link} to="/Admin/subjects">
+                <ListItemButton component={Link} to="/Admin/subjects">
                     <ListItemIcon>
                         <AssignmentIcon color={location.pathname.startsWith("/Admin/subjects") ? 'primary' : 'inherit'} />
                     </ListItemIcon>
-                    <ListItemText primary="Subjects" />
-                </ListItemButton> */}
+                    <ListItemText primary="Activities" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/Admin/leaveReq">
+                    <ListItemIcon>
+                        <AssignmentIcon color={location.pathname.startsWith("/Admin/leaveReq") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Leave Requests" />
+                </ListItemButton>
                 {/* <ListItemButton component={Link} to="/Admin/teachers">
                     <ListItemIcon>
                         <SupervisorAccountOutlinedIcon color={location.pathname.startsWith("/Admin/teachers") ? 'primary' : 'inherit'} />
@@ -58,6 +64,12 @@ const SideBar = () => {
                         <ReportIcon color={location.pathname.startsWith("/Admin/complains") ? 'primary' : 'inherit'} />
                     </ListItemIcon>
                     <ListItemText primary="Complains" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/Admin/inventory">
+                    <ListItemIcon>
+                        <ReportIcon color={location.pathname.startsWith("/Admin/inventory") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Inventory" />
                 </ListItemButton>
             </React.Fragment>
             <Divider sx={{ my: 1 }} />

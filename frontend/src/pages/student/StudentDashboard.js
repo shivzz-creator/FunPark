@@ -17,22 +17,30 @@ import StudentProfile from './StudentProfile';
 import StudentSubjects from './StudentSubjects';
 import ViewStdAttendance from './ViewStdAttendance';
 import StudentComplain from './StudentComplain';
+import LeaveReq from './LeaveReq';
+
+
 import Logout from '../Logout'
 import AccountMenu from '../../components/AccountMenu';
 import { AppBar, Drawer } from '../../components/styles';
+import bg from "../../assets/logo.png";
+import ViewLeave from './viewLeave';
+// import InventoryRequest from './InventoryRequest';
 
 const StudentDashboard = () => {
     const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
     };
-
+    const tableViewTemplateStyle = {
+        backgroundColor: 'black', // Change this to the desired color
+    };
     return (
         <>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar open={open} position='absolute'>
-                    <Toolbar sx={{ pr: '24px' }}>
+                    <Toolbar sx={{ pr: '24px' }} style={tableViewTemplateStyle}>
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -45,14 +53,16 @@ const StudentDashboard = () => {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <img src={bg} style={{ width: '100px', height: '50px' }} />
                         <Typography
                             component="h1"
-                            variant="h6"
+                            variant="h4"
                             color="inherit"
                             noWrap
+                            padding="10px"
                             sx={{ flexGrow: 1 }}
                         >
-                           Employee Dashboard
+                            Employee Funingo HRConnect
                         </Typography>
                         <AccountMenu />
                     </Toolbar>
@@ -79,6 +89,9 @@ const StudentDashboard = () => {
                         <Route path="/Student/subjects" element={<StudentSubjects />} />
                         <Route path="/Student/attendance" element={<ViewStdAttendance />} />
                         <Route path="/Student/complain" element={<StudentComplain />} />
+                        <Route path="/Student/leaveReq" element={<LeaveReq />} />
+                        <Route path="/Student/viewLeave" element={<ViewLeave />} />
+                        {/* <Route path="/Student/InventoryRequest" element={<InventoryRequest />} /> */}
 
                         <Route path="/logout" element={<Logout />} />
                     </Routes>
